@@ -1,11 +1,13 @@
 import React from "react";
-import { Counter } from "./features/counter/Counter";
+import { Routes, Route } from 'react-router-dom';
+import Layout from './routes/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <Counter />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+      </Route>
+    </Routes>
   );
 }
 
