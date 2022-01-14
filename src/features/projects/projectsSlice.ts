@@ -1,26 +1,26 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export interface Project {
-  title: string,
-  id: string,
-};
+  title: string;
+  id: string;
+}
 
 export type ProjectsState = Project[];
 
 const initialState: ProjectsState = [
   {
-    title: 'Test1',
-    id: '5',
+    title: "Test1",
+    id: "5",
   },
   {
-    title: 'Test',
-    id: '3',
-  }
+    title: "Test",
+    id: "3",
+  },
 ];
 
 const projectsSlice = createSlice({
-  name: 'projects',
+  name: "projects",
   initialState,
   reducers: {
     // Adds a new project or updates an existing project
@@ -36,11 +36,16 @@ const projectsSlice = createSlice({
       const id = action.payload;
       return state.filter((project) => project.id !== id);
     },
-  }
+  },
 });
 
 export const { update, remove } = projectsSlice.actions;
 
 export const selectProjects = (state: RootState) => state.projects;
+
+export const selectProject = (state: RootState, projectId: string) => {
+  const project = state.projects.filter(({ id }) => id === projectId)[0];
+  return project;
+};
 
 export default projectsSlice.reducer;
