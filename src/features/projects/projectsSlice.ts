@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 
 export interface Project {
   title: string,
@@ -30,5 +31,7 @@ const projectsSlice = createSlice({
 });
 
 export const { update, remove } = projectsSlice.actions;
+
+export const selectProjects = (state: RootState) => state;
 
 export default projectsSlice.reducer;
