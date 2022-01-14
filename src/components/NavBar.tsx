@@ -1,6 +1,6 @@
 const NavBar = () => {
   return (
-    <nav>
+    <nav className="py-4 px-3">
       <h1>Todo</h1>
     </nav>
   );
