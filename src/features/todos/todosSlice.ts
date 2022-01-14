@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 
 export interface Todo {
   id: string,
@@ -34,5 +35,9 @@ export const todosSlice = createSlice({
 });
 
 export const { update, remove } = todosSlice.actions;
+
+export const selectTodosForProject = (state: RootState, projectId: string) => {
+  return state.todos.filter((todo) => todo.projectId === projectId);
+};
 
 export default todosSlice.reducer;
