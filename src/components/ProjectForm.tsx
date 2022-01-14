@@ -18,7 +18,7 @@ const ProjectForm = (props: Props) => {
   const { project, handleChange, handleSubmit } = props;
   return (
     <form>
-      <input type="text" value={project.title} onChange={handleChange} />
+      <input className='bg-text text-primary' type="text" value={project.title} onChange={handleChange} />
       <button type="submit" onClick={handleSubmit}>
         Submit
       </button>
