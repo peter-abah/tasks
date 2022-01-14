@@ -32,6 +32,6 @@ const projectsSlice = createSlice({
 
 export const { update, remove } = projectsSlice.actions;
 
-export const selectProjects = (state: RootState) => state;
+export const selectProjects = (state: RootState) => state.projects;
 
 export default projectsSlice.reducer;
