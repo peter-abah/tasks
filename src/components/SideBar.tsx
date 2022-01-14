@@ -10,7 +10,7 @@ const SideBar = () => {
       <h2>Projects</h2>
       <div>
         {projects.map((project) => (
-          <ProjectLink project={project} />
+          <ProjectLink key={project.id} project={project} />
         ))}
       </div>
     </aside>

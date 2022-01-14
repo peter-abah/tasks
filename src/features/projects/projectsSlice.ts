@@ -8,7 +8,16 @@ export interface Project {
 
 export type ProjectsState = Project[];
 
-const initialState: ProjectsState = [];
+const initialState: ProjectsState = [
+  {
+    title: 'Test1',
+    id: '5',
+  },
+  {
+    title: 'Test',
+    id: '3',
+  }
+];
 
 const projectsSlice = createSlice({
   name: 'projects',
