@@ -8,7 +8,7 @@ interface Props {
   dueDate: string;
   priority: string;
   projectId: string;
-  handleChange: (e: React.ChangeEvent<HTMLElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent) => void;
   closeModal: () => void;
 }
