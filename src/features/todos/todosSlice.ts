@@ -1,14 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export interface Todo {
-  id: string,
-  projectId: string,
-  title: string,
-  description: string,
-  priority: string,
-  dueDate: string,
-};
+  id: string;
+  projectId: string;
+  title: string;
+  description: string;
+  priority: string;
+  dueDate: string;
+  [index: string]: string;
+}
 
 export type TodosState = Todo[];
 
