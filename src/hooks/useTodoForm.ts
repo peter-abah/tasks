@@ -4,7 +4,9 @@ import { useAppDispatch } from "../app/hooks";
 import uniqid from "uniqid";
 import { Todo, update as updateTodo } from "../features/todos/todosSlice";
 
-type ChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+type ChangeEvent = React.ChangeEvent<
+  HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+>;
 
 // making this a function so a new object is created every time it is called
 const newTodo = (): Todo => ({
