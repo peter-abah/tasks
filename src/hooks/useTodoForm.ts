@@ -15,7 +15,7 @@ const newTodo = (): Todo => ({
   dueDate: "",
   priority: "",
   id: uniqid(),
-  projectId: "5", // to be changed
+  projectId: "",
 });
 
 interface ErrorFields {

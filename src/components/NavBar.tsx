@@ -22,7 +22,7 @@ const NavBar = ({ openModal }: Iprops) => {
     <nav className="bg-nav h-10 flex items-center justify-between px-3 shadow-navBar z-20">
       <div className="flex gap-4">
         <button onClick={toggleSideBar}>
-          {isSideBarVisible ? <MenuIcon /> : <CloseIcon />}
+          {isSideBarVisible ? <CloseIcon /> : <MenuIcon />}
         </button>
         <h1>Todo</h1>
       </div>

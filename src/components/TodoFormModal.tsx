@@ -20,13 +20,11 @@ interface Props {
 const TodoFormModal = (props: Props) => {
   const projects = useAppSelector(selectProjects);
 
-  const projectOptions = () => {
-    return projects.map(({ id, title }) => (
-      <option key={id} value={id}>
-        {title}
-      </option>
-    ));
-  };
+  const projectOptions = projects.map(({ id, title }) => (
+    <option key={id} value={id}>
+      {title}
+    </option>
+  ));
 
   const {
     title,
@@ -108,7 +106,7 @@ const TodoFormModal = (props: Props) => {
                 onChange={handleChange}
                 value={projectId}
               >
-                {projectOptions()}
+                {projectOptions}
               </select>
             </div>
           </div>

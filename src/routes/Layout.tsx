@@ -15,6 +15,7 @@ const Layout = () => {
     handleChange: handleTodoChange,
     handleSubmit: handleTodoSubmit,
     isValid: isTodoValid,
+    clearForm: clearTodoForm,
   } = useTodoForm();
 
   const toggleForm = () => setIsFormVisible(!isFormVisible);
@@ -22,7 +23,14 @@ const Layout = () => {
   const handleSubmit = (e: React.FormEvent) => {
     handleTodoSubmit(e);
     if (isTodoValid()) toggleForm();
-  }
+  };
+
+  const closeModal = () => {
+    if (window.confirm("Are you sure. All changes will be lost")) {
+      toggleForm();
+      clearTodoForm();
+    }
+  };
 
   return (
     <main className="h-full flex flex-col items-stretch">
@@ -36,7 +44,7 @@ const Layout = () => {
           {...todo}
           handleChange={handleTodoChange}
           handleSubmit={handleSubmit}
-          closeModal={toggleForm}
+          closeModal={closeModal}
         />
       )}
     </main>
