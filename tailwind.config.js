@@ -3,9 +3,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-       primary: '#111',
-       text: '#fafafa',
+       primary: '#1f1f1f',
+       text: '#fff',
+       nav: '#282828',
       },
+      gridTemplateColumns: {
+        'main': 'auto 1fr',
+      },
+      boxShadow: {
+        navBar: '0 1px 3px 0 rgb(0 0 0 / 15%);',
+      }
     },
   },
   plugins: [],
