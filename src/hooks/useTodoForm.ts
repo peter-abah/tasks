@@ -13,7 +13,7 @@ const newTodo = (): Todo => ({
   dueDate: "",
   priority: "",
   id: uniqid(),
-  projectId: "",
+  projectId: "5", // to be changed
 });
 
 interface ErrorFields {
@@ -37,17 +37,23 @@ const useTodoForm = (data = newTodo()) => {
     return errors;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const isValid = Object.values(getErrors()).every(
-      (isError) => isError === false
-    );
-    if (!isValid) return;
-
-    dispatch(updateTodo(todo));
+  const isValid = () => {
+    return Object.values(getErrors()).every((isError) => isError === false);
   };
 
-  return { todo, handleChange, handleSubmit, getErrors };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isValid()) return;
+
+    dispatch(updateTodo(todo));
+    clearForm();
+  };
+
+  const clearForm = () => {
+    setTodo(newTodo());
+  };
+
+  return { todo, handleChange, handleSubmit, getErrors, isValid, clearForm };
 };
 
 export default useTodoForm;
