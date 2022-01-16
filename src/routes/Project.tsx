@@ -12,9 +12,9 @@ const Project = () => {
   );
 
   return (
-    <div>
-      <header>
-        <h2>{project.title}</h2>
+    <div className="py-10 w-4/5 max-w-4xl mx-auto">
+      <header className="mx-2 my-2">
+        <h2 className="text-xl font-bold">{project.title}</h2>
       </header>
       <div>
         {todos.map((todo) => (
