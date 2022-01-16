@@ -8,7 +8,8 @@ export interface Todo {
   description: string;
   priority: string;
   dueDate: string;
-  [index: string]: string;
+  completed: boolean;
+  [index: string]: string | boolean;
 }
 
 export type TodosState = Todo[];

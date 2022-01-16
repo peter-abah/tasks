@@ -16,6 +16,7 @@ const newTodo = (): Todo => ({
   priority: "",
   id: uniqid(),
   projectId: "",
+  completed: false,
 });
 
 interface ErrorFields {
