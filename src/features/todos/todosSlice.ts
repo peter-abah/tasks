@@ -12,6 +12,11 @@ export interface Todo {
   [index: string]: string | boolean;
 }
 
+interface IcompleteTodoActionPayload {
+  id: string;
+  completed: boolean;
+}
+
 export type TodosState = Todo[];
 
 const initialState: TodosState = [];
@@ -21,7 +26,7 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     // Adds a new todo or updates an existing code
-    update: (state, action: PayloadAction<Todo>) => {
+    update(state, action: PayloadAction<Todo>) {
       const todo = action.payload;
 
       // filters todo from state if its exists (existing todo)
@@ -29,14 +34,23 @@ export const todosSlice = createSlice({
       return [...filtered, todo];
     },
 
-    remove: (state, action: PayloadAction<string>) => {
+    remove(state, action: PayloadAction<string>) {
       const id = action.payload;
       return state.filter((todo) => todo.id !== id);
+    },
+
+    updateTodoCompletedStatus(
+      state,
+      action: PayloadAction<IcompleteTodoActionPayload>
+    ) {
+      const { id, completed } = action.payload;
+      const todo = state.filter((e) => e.id === id)[0];
+      todo.completed = completed;
     },
   },
 });
 
-export const { update, remove } = todosSlice.actions;
+export const { update, remove, updateTodoCompletedStatus } = todosSlice.actions;
 
 export const selectTodosForProject = (state: RootState, projectId: string) => {
   return state.todos.filter((todo) => todo.projectId === projectId);

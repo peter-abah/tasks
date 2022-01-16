@@ -33,7 +33,7 @@ const useTodoForm = (data = newTodo()) => {
   };
 
   const getErrors = () => {
-    const fields = ["title", "description", "projectId"];
+    const fields = ["title", "projectId"];
     const errors = fields.reduce((e: ErrorFields, field) => {
       return { ...e, [field]: todo[field] === "" };
     }, {});
