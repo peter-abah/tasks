@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
-import Todo from '../components/Todo';
+import Todo from "../components/Todo";
 import { selectProject } from "../features/projects/projectsSlice";
 import { selectTodosForProject } from "../features/todos/todosSlice";
 
@@ -12,14 +12,16 @@ const Project = () => {
   );
 
   return (
-    <header>
-      <h2>{project.title}</h2>
+    <div>
+      <header>
+        <h2>{project.title}</h2>
+      </header>
       <div>
         {todos.map((todo) => (
           <Todo key={todo.id} {...todo} />
         ))}
       </div>
-    </header>
+    </div>
   );
 };
 

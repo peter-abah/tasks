@@ -2,17 +2,17 @@ import { Link } from "react-router-dom";
 import { Project } from "../features/projects/projectsSlice";
 
 interface Props {
-  project: Project
+  project: Project;
 }
 
 const ProjectLink = ({ project }: Props) => {
   return (
-    <Link to={`projects/${project.id}`} >
-      <p>
+    <li className="py-2">
+      <Link to={`projects/${project.id}`}>
         <span>{project.title}</span>
-      </p>
-    </Link>
-  );   
+      </Link>
+    </li>
+  );
 };
 
 export default ProjectLink;

@@ -17,10 +17,15 @@ const newProject = {
 const ProjectForm = (props: Props) => {
   const { project, handleChange, handleSubmit } = props;
   return (
-    <form>
-      <input className='bg-text text-primary' type="text" value={project.title} onChange={handleChange} />
+    <form className="flex py-2">
+      <input
+        className="border-b border-solid border-text mr-4 pb-1 focus-visible:border-b-4 focus-visible:outline-none"
+        type="text"
+        value={project.title}
+        onChange={handleChange}
+      />
       <button type="submit" onClick={handleSubmit}>
-        Submit
+        Save
       </button>
     </form>
   );

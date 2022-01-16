@@ -22,9 +22,9 @@ const Layout = () => {
   }
 
   return (
-    <main>
+    <main className="h-full flex flex-col items-stretch">
       <NavBar openModal={toggleForm} />
-      <div>
+      <div className="flex flex-col items-stretch relative h-full">
         <SideBar />
         <Outlet />
       </div>
