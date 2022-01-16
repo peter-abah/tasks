@@ -1,12 +1,34 @@
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import {
+  selectSideBarVisibility,
+  updateSideBarVisibility,
+} from "../features/ui/uiSlice";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import AddIcon from "@mui/icons-material/AddCircleOutline";
+
 interface Iprops {
   openModal: () => void;
 }
 
 const NavBar = ({ openModal }: Iprops) => {
+  const isSideBarVisible = useAppSelector(selectSideBarVisibility);
+  const dispatch = useAppDispatch();
+
+  const toggleSideBar = () =>
+    dispatch(updateSideBarVisibility(!isSideBarVisible));
+
   return (
     <nav className="bg-nav h-10 flex items-center justify-between px-3 shadow-navBar z-20">
-      <h1>Todo</h1>
-      <button onClick={openModal}>Add Todo</button>
+      <div className="flex gap-4">
+        <button onClick={toggleSideBar}>
+          {isSideBarVisible ? <MenuIcon /> : <CloseIcon />}
+        </button>
+        <h1>Todo</h1>
+      </div>
+      <button onClick={openModal}>
+        <AddIcon />
+      </button>
     </nav>
   );
 };

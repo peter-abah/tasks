@@ -84,7 +84,7 @@ const TodoFormModal = (props: Props) => {
                 Priority:
               </label>
               <select
-                className="appearance-none text-center focus-visible:outline-none p1 border rounded-md"
+                className="appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
                 name="priority"
                 id="todo-priority"
                 onChange={handleChange}
@@ -102,7 +102,7 @@ const TodoFormModal = (props: Props) => {
               </label>
 
               <select
-                className="appearance-none text-center focus-visible:outline-none p1 border rounded-md"
+                className="appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
                 name="projectId"
                 id="todo-project"
                 onChange={handleChange}

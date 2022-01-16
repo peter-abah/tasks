@@ -2,26 +2,26 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 export interface UIState {
-  isTodoFormHidden: boolean;
+  isSideBarVisible: boolean;
 }
 
 const initialState: UIState = {
-  isTodoFormHidden: true,
+  isSideBarVisible: true,
 };
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    updateTodoFormHidden: (state, action: PayloadAction<boolean>) => {
+    updateSideBarVisibility: (state, action: PayloadAction<boolean>) => {
       const isHidden = action.payload;
-      state.isTodoFormHidden = isHidden;
+      state.isSideBarVisible = isHidden;
     },
   }
 });
 
-export const { updateTodoFormHidden } = uiSlice.actions;
+export const { updateSideBarVisibility } = uiSlice.actions;
 
-export const selectTodoFormHidden = (state: RootState) => state.ui.isTodoFormHidden;
+export const selectSideBarVisibility = (state: RootState) => state.ui.isSideBarVisible;
 
 export default uiSlice.reducer;
