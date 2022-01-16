@@ -56,4 +56,22 @@ export const selectTodosForProject = (state: RootState, projectId: string) => {
   return state.todos.filter((todo) => todo.projectId === projectId);
 };
 
+export const selectCompletedTodosForProject = (
+  state: RootState,
+  projectId: string
+) => {
+  return state.todos.filter(
+    (todo) => todo.projectId === projectId && todo.completed === true
+  );
+};
+
+export const selectIncompletedTodosForProject = (
+  state: RootState,
+  projectId: string
+) => {
+  return state.todos.filter(
+    (todo) => todo.projectId === projectId && todo.completed === false
+  );
+};
+
 export default todosSlice.reducer;
