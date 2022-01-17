@@ -10,7 +10,7 @@ const OptionsBox = React.forwardRef<HTMLDivElement, Iprops>((props, ref) => {
   return (
     <div
       ref={ref}
-      className="absolute top-[2rem] right-0 flex flex-col gap-2 p-4 shadow-lg"
+      className="absolute top-[2rem] right-0 flex flex-col gap-2 p-4 shadow-lg z-10"
     >
       <button onClick={handleEdit}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
