@@ -7,21 +7,35 @@ interface Props {
   project: Project;
   handleChange: (e: ChangeEvent) => void;
   handleSubmit: (e: React.FormEvent) => void;
+  handleClose: () => void;
 }
 
 const ProjectForm = (props: Props) => {
-  const { project, handleChange, handleSubmit } = props;
+  const { project, handleChange, handleSubmit, handleClose } = props;
   return (
-    <form className="flex py-2">
+    <form className="flex flex-col gap-2 py-2">
       <input
         className="border-b border-solid border-text mr-4 pb-1 focus-visible:border-b-4 focus-visible:outline-none"
         type="text"
         value={project.title}
         onChange={handleChange}
       />
-      <button type="submit" onClick={handleSubmit}>
-        Save
-      </button>
+      <div className="flex gap-2">
+        <button
+          className="mr-4 px-4 py-1 rounded-md bg-amber-700"
+          type="submit"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+        <button
+          className="mr-4 px-4 py-1 rounded-md bg-red-700"
+          type="submit"
+          onClick={handleClose}
+        >
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

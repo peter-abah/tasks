@@ -20,7 +20,7 @@ const SideBar = () => {
   const projects = useAppSelector(selectProjects);
   const dispatch = useAppDispatch();
 
-  const showForm = () => setFormVisible(true);
+  const toggleForm = () => setFormVisible(!isFormVisible);
 
   const handleChange = (e: ChangeEvent) => {
     const { value } = e.target;
@@ -45,7 +45,7 @@ const SideBar = () => {
     <aside className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] h-full pl-7 pr-4 py-3 z-10 text-sm">
       <header className="flex justify-between items-center py-3">
         <h2 className="font-bold">Projects</h2>
-        <button onClick={showForm}>
+        <button onClick={toggleForm}>
           <AddIcon className="!text-lg" />
         </button>
       </header>
@@ -60,6 +60,7 @@ const SideBar = () => {
           project={project}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          handleClose={toggleForm}
         />
       )}
     </aside>
