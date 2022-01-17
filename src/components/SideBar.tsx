@@ -42,7 +42,7 @@ const SideBar = () => {
   const closeSideBar = () => dispatch(updateSideBarVisibility(false));
 
   return (
-    <aside className="!bg-nav absolute top-0 left-0 w-80 h-full pl-7 pr-4 py-3 z-10 text-sm">
+    <aside className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] h-full pl-7 pr-4 py-3 z-10 text-sm">
       <header className="flex justify-between items-center py-3">
         <h2 className="font-bold">Projects</h2>
         <button onClick={showForm}>
