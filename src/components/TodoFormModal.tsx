@@ -117,7 +117,7 @@ const TodoFormModal = (props: Props) => {
               type="submit"
               onClick={handleSubmit}
             >
-              Add
+              Save
             </button>
             <button
               className="px-4 py-1 rounded-md bg-red-700"

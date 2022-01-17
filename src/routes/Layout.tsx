@@ -21,8 +21,13 @@ const Layout = () => {
   const toggleForm = () => setIsFormVisible(!isFormVisible);
 
   const handleSubmit = (e: React.FormEvent) => {
-    handleTodoSubmit(e);
-    if (isTodoValid()) toggleForm();
+    e.preventDefault();
+    
+    if (isTodoValid()) {
+      handleTodoSubmit(e);
+      toggleForm();
+      clearTodoForm();
+    }
   };
 
   const closeModal = () => {

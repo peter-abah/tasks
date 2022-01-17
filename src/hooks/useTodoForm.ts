@@ -49,7 +49,6 @@ const useTodoForm = (data = newTodo()) => {
     if (!isValid()) return;
 
     dispatch(updateTodo(todo));
-    clearForm();
   };
 
   const clearForm = () => {
