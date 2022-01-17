@@ -7,7 +7,6 @@ const useOutsideClick = (
 ) => {
   const listener = useCallback(
     (e: MouseEvent) => {
-      console.log(1);
       // checks if click event occurs outside node
       if (node && e.target instanceof HTMLElement && !node.contains(e.target)) {
         callback(e);

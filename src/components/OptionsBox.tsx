@@ -1,15 +1,21 @@
+import React from "react";
+
 interface Iprops {
   handleDelete: () => void;
   handleEdit: () => void;
 }
 
-const OptionsBox = ({ handleDelete, handleEdit }: Iprops) => {
+const OptionsBox = React.forwardRef<HTMLDivElement, Iprops>((props, ref) => {
+  const { handleEdit, handleDelete } = props;
   return (
-    <div className="absolute top-[2rem] right-0 flex flex-col gap-2 p-4 shadow-lg">
+    <div
+      ref={ref}
+      className="absolute top-[2rem] right-0 flex flex-col gap-2 p-4 shadow-lg"
+    >
       <button onClick={handleEdit}>Edit</button>
       <button onClick={handleDelete}>Delete</button>
     </div>
-  )
-};
+  );
+});
 
 export default OptionsBox;

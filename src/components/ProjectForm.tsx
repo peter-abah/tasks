@@ -1,6 +1,5 @@
 import React from "react";
 import { Project } from "../features/projects/projectsSlice";
-import uniqid from "uniqid";
 
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -9,10 +8,6 @@ interface Props {
   handleChange: (e: ChangeEvent) => void;
   handleSubmit: (e: React.FormEvent) => void;
 }
-const newProject = {
-  title: "",
-  id: uniqid(),
-};
 
 const ProjectForm = (props: Props) => {
   const { project, handleChange, handleSubmit } = props;

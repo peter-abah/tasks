@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useAppDispatch } from "../app/hooks";
 import {
   updateTodoCompletedStatus as toggleCompleteStatus,
@@ -16,10 +16,15 @@ import MoreIcon from "@mui/icons-material/MoreHoriz";
 import OptionsBox from "./OptionsBox";
 import TodoFormModal from "./TodoFormModal";
 import useTodoForm from "../hooks/useTodoForm";
+import useOutsideClick from "../hooks/useOutsideClick";
 
 const Todo = (props: TodoType) => {
   const [showDescription, setShowDescription] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  const outsideCLickHandler = useCallback(() => setShowOptions(false), []);
+  useOutsideClick(optionsRef.current, outsideCLickHandler);
 
   const [showForm, setShowForm] = useState(false);
   const {
@@ -27,16 +32,18 @@ const Todo = (props: TodoType) => {
     handleChange,
     handleSubmit: handleTodoSubmit,
     isValid,
-    clearForm,
   } = useTodoForm(props);
   const dispatch = useAppDispatch();
 
   const { id, title, dueDate, description, completed } = props;
 
   const date = dueDate && format(new Date(dueDate), "MMM dd");
-  const completedClassName = classnames("relative border-b border-neutral-700", {
-    "text-gray-500 line-through": completed,
-  });
+  const completedClassName = classnames(
+    "relative border-b border-neutral-700",
+    {
+      "text-gray-500 line-through": completed,
+    }
+  );
 
   const toggleComplete = () => {
     dispatch(toggleCompleteStatus({ id, completed: !completed }));
@@ -60,8 +67,8 @@ const Todo = (props: TodoType) => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to remove task')) {
-      dispatch(removeTodo(id))
+    if (window.confirm("Are you sure you want to remove task")) {
+      dispatch(removeTodo(id));
     }
   };
 
@@ -90,7 +97,11 @@ const Todo = (props: TodoType) => {
         <p className="ml-10 mb-2">{description}</p>
       )}
       {showOptions && (
-        <OptionsBox handleEdit={toggleForm} handleDelete={handleDelete} />
+        <OptionsBox
+          ref={optionsRef}
+          handleEdit={toggleForm}
+          handleDelete={handleDelete}
+        />
       )}
       {showForm && (
         <TodoFormModal
