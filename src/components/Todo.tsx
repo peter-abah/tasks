@@ -21,7 +21,7 @@ import OptionsBox from "./OptionsBox";
 import TodoFormModal from "./TodoFormModal";
 
 const Todo = (props: TodoType) => {
-  const { id, title, dueDate, description, completed } = props;
+  const { id, title, dueDate, description, completed, priority } = props;
 
   const { value: showDescription, toggle: toggleShowDescription } =
     useBoolean(false);
@@ -75,17 +75,28 @@ const Todo = (props: TodoType) => {
     }
   );
 
+  type TpriorityColors = { [index: string]: string };
+  const priorityColors: TpriorityColors = {
+    low: "!text-blue-300",
+    medium: "!text-green-500",
+    high: "!text-red-500",
+  };
+  const checkBoxClass = `text-4xl ${priorityColors[priority]}`;
+
   return (
     <div className={completedClassName}>
       <div className="flex items-center px-1">
         <button onClick={toggleComplete} className="mr-3">
           {completed ? (
-            <CheckedCircleIcon className="!text-xl" />
+            <CheckedCircleIcon className={checkBoxClass} />
           ) : (
-            <CircleIcon className="!text-xl" />
+            <CircleIcon className={checkBoxClass} />
           )}
         </button>
-        <div onClick={toggleShowDescription} className="py-2 flex flex-col flex-grow">
+        <div
+          onClick={toggleShowDescription}
+          className="py-2 flex flex-col flex-grow"
+        >
           <h3>{title}</h3>
           {date && <span className="mt-1 text-xs">{date}</span>}
         </div>
