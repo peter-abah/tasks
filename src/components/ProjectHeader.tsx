@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from "react";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { useOnClickOutside, useBoolean } from "usehooks-ts";
 import useProjectForm from "../hooks/useProjectForm";
@@ -7,10 +8,7 @@ import {
   Project,
   remove as removeProject,
 } from "../features/projects/projectsSlice";
-import {
-  removeIfPredicate as removeTodosIfPredicate,
-  Todo,
-} from "../features/todos/todosSlice";
+import { removeTodosForProject } from "../features/todos/todosSlice";
 
 import MoreIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,7 +18,7 @@ import ProjectForm from "../components/ProjectForm";
 
 const ProjectHeader = (props: Project) => {
   const { id, title } = props;
-
+  const navigate = useNavigate();
   const { value: showForm, toggle: toggleForm } = useBoolean(false);
 
   const {
@@ -43,7 +41,8 @@ const ProjectHeader = (props: Project) => {
 
   const handleDelete = () => {
     dispatch(removeProject(id));
-    dispatch(removeTodosIfPredicate((todo: Todo) => todo.projectId === id));
+    dispatch(removeTodosForProject(id));
+    navigate('/');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
