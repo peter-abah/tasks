@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { stat } from "fs";
 import { RootState } from "../../app/store";
 
 export interface Todo {
@@ -17,9 +18,21 @@ interface IcompleteTodoActionPayload {
   completed: boolean;
 }
 
-export type TodosState = Todo[];
+export interface TodosState {
+  list: Todo[];
+  sort: {
+    field: string,
+    order: 'asc' | 'desc',
+  };
+}
 
-const initialState: TodosState = [];
+const initialState: TodosState = {
+  list: [],
+  sort: {
+    field: '',
+    order: 'asc'
+  },
+};
 
 export const todosSlice = createSlice({
   name: "todos",
@@ -30,13 +43,15 @@ export const todosSlice = createSlice({
       const todo = action.payload;
 
       // filters todo from state if its exists (existing todo)
-      const filtered = state.filter(({ id }) => id !== todo.id);
-      return [...filtered, todo];
+      state.list = state.list.filter(({ id }) => id !== todo.id);
+      state.list.push(todo);
+      return state;
     },
 
     remove(state, action: PayloadAction<string>) {
       const id = action.payload;
-      return state.filter((todo) => todo.id !== id);
+      state.list = state.list.filter((todo) => todo.id !== id);
+      return state;
     },
 
     updateTodoCompletedStatus(
@@ -44,30 +59,35 @@ export const todosSlice = createSlice({
       action: PayloadAction<IcompleteTodoActionPayload>
     ) {
       const { id, completed } = action.payload;
-      const todo = state.filter((e) => e.id === id)[0];
+      const todo = state.list.filter((e) => e.id === id)[0];
       todo.completed = completed;
     },
 
     // removes todos from state that pass the predicate function
     removeTodosForProject(state, action: PayloadAction<string>) {
       const id = action.payload;
-      return state.filter((todo) => todo.projectId !== id);
+      state.list = state.list.filter((todo) => todo.projectId !== id);
+      return state;
     },
   },
 });
 
-export const { update, remove, updateTodoCompletedStatus, removeTodosForProject } =
-  todosSlice.actions;
+export const {
+  update,
+  remove,
+  updateTodoCompletedStatus,
+  removeTodosForProject,
+} = todosSlice.actions;
 
 export const selectTodosForProject = (state: RootState, projectId: string) => {
-  return state.todos.filter((todo) => todo.projectId === projectId);
+  return state.todos.list.filter((todo) => todo.projectId === projectId);
 };
 
 export const selectCompletedTodosForProject = (
   state: RootState,
   projectId: string
 ) => {
-  return state.todos.filter(
+  return state.todos.list.filter(
     (todo) => todo.projectId === projectId && todo.completed === true
   );
 };
@@ -76,7 +96,7 @@ export const selectIncompletedTodosForProject = (
   state: RootState,
   projectId: string
 ) => {
-  return state.todos.filter(
+  return state.todos.list.filter(
     (todo) => todo.projectId === projectId && todo.completed === false
   );
 };
