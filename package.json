@@ -24,7 +24,8 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "typescript": "^4.1.6",
-    "uniqid": "^5.4.0"
+    "uniqid": "^5.4.0",
+    "usehooks-ts": "^2.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
