@@ -17,6 +17,8 @@ interface IcompleteTodoActionPayload {
   completed: boolean;
 }
 
+type TpredicateFunc = (todo: Todo) => boolean;
+
 export type TodosState = Todo[];
 
 const initialState: TodosState = [];
@@ -47,10 +49,17 @@ export const todosSlice = createSlice({
       const todo = state.filter((e) => e.id === id)[0];
       todo.completed = completed;
     },
+
+    // removes todos from state that pass the predicate function
+    removeIfPredicate(state, action: PayloadAction<TpredicateFunc>) {
+      const predicateFunc = action.payload;
+      return state.filter(predicateFunc);
+    },
   },
 });
 
-export const { update, remove, updateTodoCompletedStatus } = todosSlice.actions;
+export const { update, remove, updateTodoCompletedStatus, removeIfPredicate } =
+  todosSlice.actions;
 
 export const selectTodosForProject = (state: RootState, projectId: string) => {
   return state.todos.filter((todo) => todo.projectId === projectId);
