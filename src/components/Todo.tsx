@@ -1,11 +1,15 @@
-import { useState, useRef, useCallback } from "react";
+import { useRef } from "react";
+import { useOnClickOutside, useBoolean } from "usehooks-ts";
 import { useAppDispatch } from "../app/hooks";
+import useTodoForm from "../hooks/useTodoForm";
+
+import { format } from "date-fns";
+import classnames from "classnames";
+
 import {
   updateTodoCompletedStatus as toggleCompleteStatus,
   remove as removeTodo,
 } from "../features/todos/todosSlice";
-import { format } from "date-fns";
-import classnames from "classnames";
 import { Todo as TodoType } from "../features/todos/todosSlice";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,18 +19,25 @@ import MoreIcon from "@mui/icons-material/MoreHoriz";
 
 import OptionsBox from "./OptionsBox";
 import TodoFormModal from "./TodoFormModal";
-import useTodoForm from "../hooks/useTodoForm";
-import useOutsideClick from "../hooks/useOutsideClick";
 
 const Todo = (props: TodoType) => {
-  const [showDescription, setShowDescription] = useState(false);
-  const [showOptions, setShowOptions] = useState(false);
+  const { id, title, dueDate, description, completed } = props;
+
+  const { value: showDescription, toggle: toggleShowDescription } =
+    useBoolean(false);
+
+  const {
+    value: showOptions,
+    setValue: setShowOptions,
+    toggle: toggleOptions,
+  } = useBoolean(false);
+
+  const { value: showForm, toggle: toggleForm } = useBoolean(false);
+
   const optionsRef = useRef<HTMLDivElement>(null);
+  const outsideClickHandler = () => setShowOptions(false);
+  useOnClickOutside(optionsRef, outsideClickHandler);
 
-  const outsideCLickHandler = useCallback(() => setShowOptions(false), []);
-  useOutsideClick(optionsRef.current, outsideCLickHandler);
-
-  const [showForm, setShowForm] = useState(false);
   const {
     todo,
     handleChange,
@@ -35,25 +46,9 @@ const Todo = (props: TodoType) => {
   } = useTodoForm(props);
   const dispatch = useAppDispatch();
 
-  const { id, title, dueDate, description, completed } = props;
-
-  const date = dueDate && format(new Date(dueDate), "MMM dd");
-  const completedClassName = classnames(
-    "relative border-b border-neutral-700",
-    {
-      "text-gray-500 line-through": completed,
-    }
-  );
-
   const toggleComplete = () => {
     dispatch(toggleCompleteStatus({ id, completed: !completed }));
   };
-
-  const toggleOptions = () => {
-    setShowOptions(!showOptions);
-  };
-
-  const toggleForm = () => setShowForm(!showForm);
 
   const handleSubmit = (e: React.FormEvent) => {
     handleTodoSubmit(e);
@@ -72,12 +67,17 @@ const Todo = (props: TodoType) => {
     }
   };
 
+  const date = dueDate && format(new Date(dueDate), "MMM dd");
+  const completedClassName = classnames(
+    "relative border-b border-neutral-700",
+    {
+      "text-gray-500 line-through": completed,
+    }
+  );
+
   return (
     <div className={completedClassName}>
-      <div
-        onClick={() => setShowDescription(!showDescription)}
-        className="flex items-center px-1"
-      >
+      <div className="flex items-center px-1">
         <button onClick={toggleComplete} className="mr-3">
           {completed ? (
             <CheckedCircleIcon className="!text-xl" />
@@ -85,7 +85,7 @@ const Todo = (props: TodoType) => {
             <CircleIcon className="!text-xl" />
           )}
         </button>
-        <div className="py-2 flex flex-col flex-grow">
+        <div onClick={toggleShowDescription} className="py-2 flex flex-col flex-grow">
           <h3>{title}</h3>
           {date && <span className="mt-1 text-xs">{date}</span>}
         </div>
