@@ -15,7 +15,7 @@ const newTodo = (): Todo => ({
   dueDate: "",
   priority: "",
   id: uniqid(),
-  projectId: "",
+  projectId: "default",
   completed: false,
 });
 

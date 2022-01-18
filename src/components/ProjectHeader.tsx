@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { useOnClickOutside, useBoolean } from "usehooks-ts";
@@ -42,7 +42,7 @@ const ProjectHeader = (props: Project) => {
   const handleDelete = () => {
     dispatch(removeProject(id));
     dispatch(removeTodosForProject(id));
-    navigate('/');
+    navigate("/");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,6 +53,7 @@ const ProjectHeader = (props: Project) => {
     }
   };
 
+  const isDefault = id === "default";
   return (
     <header className="relative flex justify-between mx-2 pt-2 pb-8">
       {showForm ? (
@@ -65,9 +66,11 @@ const ProjectHeader = (props: Project) => {
       ) : (
         <h2 className="text-xl font-bold">{title}</h2>
       )}
-      <button onClick={toggleOptions}>
-        {showOptions ? <CloseIcon /> : <MoreIcon />}
-      </button>
+      {!isDefault && (
+        <button onClick={toggleOptions}>
+          {showOptions ? <CloseIcon /> : <MoreIcon />}
+        </button>
+      )}
       {showOptions && (
         <OptionsBox
           ref={optionsRef}

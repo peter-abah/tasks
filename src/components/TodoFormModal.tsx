@@ -100,7 +100,7 @@ const TodoFormModal = (props: Props) => {
               </label>
 
               <select
-                className="appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
+                className="max-w-[15ch] overflow-x-hidden appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
                 name="projectId"
                 id="todo-project"
                 onChange={handleChange}
