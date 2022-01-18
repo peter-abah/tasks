@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside, useBoolean } from "usehooks-ts";
 import { useAppDispatch } from "../app/hooks";
 import useTodoForm from "../hooks/useTodoForm";
@@ -38,12 +38,14 @@ const Todo = (props: TodoType) => {
   const outsideClickHandler = () => setShowOptions(false);
   useOnClickOutside(optionsRef, outsideClickHandler);
 
+  const [errorMsg, setErrorMsg] = useState('');
   const {
     todo,
     handleChange,
     handleSubmit: handleTodoSubmit,
     isValid,
   } = useTodoForm(props);
+
   const dispatch = useAppDispatch();
 
   const toggleComplete = () => {
@@ -51,8 +53,14 @@ const Todo = (props: TodoType) => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    handleTodoSubmit(e);
-    if (isValid()) toggleForm();
+    e.preventDefault();
+    if (isValid()) {
+      toggleForm();
+      handleTodoSubmit(e);
+      setErrorMsg('');
+    } else {
+      setErrorMsg('Enter a title');
+    }
   };
 
   const closeModal = () => {
@@ -120,6 +128,7 @@ const Todo = (props: TodoType) => {
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}
+          errorMessage={errorMsg}
         />
       )}
     </div>

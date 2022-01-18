@@ -15,6 +15,7 @@ interface Props {
   ) => void;
   handleSubmit: (e: React.FormEvent) => void;
   closeModal: () => void;
+  errorMessage: string;
 }
 
 const TodoFormModal = (props: Props) => {
@@ -35,6 +36,7 @@ const TodoFormModal = (props: Props) => {
     handleChange,
     handleSubmit,
     closeModal,
+    errorMessage,
   } = props;
 
   return (
@@ -60,6 +62,8 @@ const TodoFormModal = (props: Props) => {
             onChange={handleChange}
           ></textarea>
         </div>
+
+        {errorMessage && <p className="p-4 pb-0 text-xs">{errorMessage}</p>}
 
         <div className="p-4">
           <div className="pb-4 flex flex-wrap gap-4 justify-between items-center">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useBoolean } from "usehooks-ts";
 import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { selectSideBarVisibility } from "../features/ui/uiSlice";
@@ -9,7 +10,8 @@ import TodoFormModal from "../components/TodoFormModal";
 
 const Layout = () => {
   const isSideBarVisible = useAppSelector(selectSideBarVisibility);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const { value: isFormVisible, toggle: toggleForm } = useBoolean(false);
   const {
     todo,
     handleChange: handleTodoChange,
@@ -18,15 +20,16 @@ const Layout = () => {
     clearForm: clearTodoForm,
   } = useTodoForm();
 
-  const toggleForm = () => setIsFormVisible(!isFormVisible);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (isTodoValid()) {
       handleTodoSubmit(e);
       toggleForm();
       clearTodoForm();
+      setErrorMsg("");
+    } else {
+      setErrorMsg("Enter a title");
     }
   };
 
@@ -50,6 +53,7 @@ const Layout = () => {
           handleChange={handleTodoChange}
           handleSubmit={handleSubmit}
           closeModal={closeModal}
+          errorMessage={errorMsg}
         />
       )}
     </main>
