@@ -13,10 +13,11 @@ interface Props {
 const ProjectForm = (props: Props) => {
   const { project, handleChange, handleSubmit, handleClose } = props;
   return (
-    <form className="flex flex-col gap-2 py-2">
+    <form className="flex flex-wrap gap-2 py-2">
       <input
         className="border-b border-solid border-text mr-4 pb-1 focus-visible:border-b-4 focus-visible:outline-none"
         type="text"
+        name="title"
         value={project.title}
         onChange={handleChange}
       />
