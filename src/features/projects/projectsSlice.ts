@@ -13,6 +13,14 @@ const initialState: ProjectsState = [
     title: "Default",
     id: "default",
   },
+  {
+    title: "Lovely",
+    id: "1",
+  },
+  {
+    title: "School",
+    id: "2",
+  },
 ];
 
 const projectsSlice = createSlice({
