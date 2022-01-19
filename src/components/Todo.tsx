@@ -97,23 +97,27 @@ const Todo = (props: TodoType) => {
   return (
     <div className={completedClassName}>
       <div className="flex items-center px-1">
-        <button onClick={toggleComplete} className="mr-3">
+        <button
+          onClick={toggleComplete}
+          className="mr-3 p-1 rounded-full hover:bg-nav"
+        >
           {completed ? (
             <CheckedCircleIcon className={checkBoxClass} />
           ) : (
             <CircleIcon className={checkBoxClass} />
           )}
         </button>
-        <button
+        <div
           onClick={toggleShowDescription}
-          className={classnames("py-2 flex flex-col flex-grow", {
-            "!cursor-text": !showDescription,
-          })}
+          className="py-2 flex flex-col flex-grow"
         >
           <h3>{title}</h3>
           {date && <span className="mt-1 text-xs">{date}</span>}
-        </button>
-        <button onClick={toggleOptions}>
+        </div>
+        <button
+          className="p-1 rounded-full hover:bg-nav"
+          onClick={toggleOptions}
+        >
           {showOptions ? <CloseIcon /> : <MoreIcon />}
         </button>
       </div>
@@ -125,7 +129,7 @@ const Todo = (props: TodoType) => {
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{ ease: "easeOut", duration: 0.3 }}
             style={{ originY: 0 }}
-            className="ml-10 mb-2"
+            className="ml-10 mb-2 px-2"
           >
             {description}
           </motion.p>
