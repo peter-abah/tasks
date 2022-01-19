@@ -13,7 +13,7 @@ const CategoriesBar = ({ closeSideBar }: Iprops) => {
   return (
     <div className="flex flex-col pt-2 pb-4">
       {links.map(({ name, path }) => (
-        <Link onClick={closeSideBar} className="py-2" key={path} to={path}>
+        <Link onClick={closeSideBar} className="p-2 mb-2 rounded-lg hover:bg-neutral-800" key={path} to={path}>
           {name}
         </Link>
       ))}

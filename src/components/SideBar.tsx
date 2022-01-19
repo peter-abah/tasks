@@ -57,7 +57,7 @@ const SideBar = () => {
       initial={{ x: -300 }}
       transition={{ ease: "easeIn", duration: 0.5 }}
       exit={{ x: -300 }}
-      className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] h-full pl-7 pr-4 py-3 z-10 text-sm"
+      className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] min-h-full pl-7 pr-4 py-3 z-10 text-sm"
     >
       <CategoriesBar closeSideBar={closeSideBar} />
       <header className="flex justify-between items-center py-3">
