@@ -4,8 +4,8 @@ import { useAppSelector } from "../app/hooks";
 
 import humanizeString from "humanize-string";
 
-import Task from "../components/Task";
-import NoTasks from '../components/NoTasks';
+import Tasks from '../components/Tasks';
+import NoTasks from "../components/NoTasks";
 
 const Category = () => {
   let { category } = useParams() as any;
@@ -24,29 +24,10 @@ const Category = () => {
       {tasks.length === 0 ? (
         <NoTasks />
       ) : (
-        <>
-          <div>
-            <h3 className="invisible fixed top-[-9999px] left-[-9999px]">
-              Upcoming
-            </h3>
-            <div>
-              {incompletedTasks.map((task) => (
-                <Task key={task.id} {...task} />
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <h3 className="invisible fixed top-[-9999px] left-[-9999px]">
-              Completed
-            </h3>
-            <div>
-              {completedTasks.map((task) => (
-                <Task key={task.id} {...task} />
-              ))}
-            </div>
-          </div>
-        </>
+        <Tasks
+          incompletedTasks={incompletedTasks}
+          completedTasks={completedTasks}
+        />
       )}
     </div>
   );
