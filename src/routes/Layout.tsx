@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { useBoolean } from "usehooks-ts";
+import React, { useState, useRef } from "react";
+import { useBoolean, useOnClickOutside } from "usehooks-ts";
 import { Outlet } from "react-router-dom";
 
-import { useAppSelector } from "../app/hooks";
-import { selectSideBarVisibility } from "../features/ui/uiSlice";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import {
+  selectSideBarVisibility,
+  updateSideBarVisibility,
+} from "../features/ui/uiSlice";
 import useTaskForm from "../hooks/useTaskForm";
 
 import { AnimatePresence } from "framer-motion";
@@ -15,6 +18,7 @@ const Layout = () => {
   const isSideBarVisible = useAppSelector(selectSideBarVisibility);
   const [errorMsg, setErrorMsg] = useState("");
   const { value: isFormVisible, toggle: toggleForm } = useBoolean(false);
+  const dispatch = useAppDispatch();
   const {
     task,
     handleChange: handleTaskChange,
@@ -22,6 +26,13 @@ const Layout = () => {
     isValid: isTaskValid,
     clearForm: clearTaskForm,
   } = useTaskForm();
+
+  const toggleSideBar = () =>
+    dispatch(updateSideBarVisibility(!isSideBarVisible));
+
+  const sideBarRef = useRef<HTMLElement>(null);
+  const handleClickOutside = () => toggleSideBar();
+  useOnClickOutside(sideBarRef, handleClickOutside);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +58,9 @@ const Layout = () => {
     <main className="h-full flex flex-col items-stretch">
       <NavBar openModal={toggleForm} />
       <div className="flex flex-col items-stretch relative h-full">
-        <AnimatePresence>{isSideBarVisible && <SideBar />}</AnimatePresence>
+        <AnimatePresence>
+          {isSideBarVisible && <SideBar ref={sideBarRef} />}
+        </AnimatePresence>
         <Outlet />
       </div>
       <AnimatePresence>

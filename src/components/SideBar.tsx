@@ -20,7 +20,7 @@ const newProject = {
   id: uniqid(),
 };
 
-const SideBar = () => {
+const SideBar = React.forwardRef<HTMLElement>((_, ref) => {
   const {
     value: isFormVisible,
     setValue: setFormVisible,
@@ -57,6 +57,7 @@ const SideBar = () => {
       initial={{ x: -300 }}
       transition={{ ease: "easeIn", duration: 0.5 }}
       exit={{ x: -300 }}
+      ref={ref}
       className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] min-h-full pl-7 pr-4 py-3 z-10 text-sm"
     >
       <CategoriesBar closeSideBar={closeSideBar} />
@@ -86,6 +87,6 @@ const SideBar = () => {
       )}
     </motion.aside>
   );
-};
+});
 
 export default SideBar;
