@@ -7,7 +7,8 @@ import humanizeString from "humanize-string";
 import Todo from "../components/Todo";
 
 const Category = () => {
-  const { category } = useParams() as { category: string };
+  let { category } = useParams() as any;
+  category = category || 'all';
   const todos = useAppSelector((state) => selectTodosCategory(state, category));
 
   const incompletedTodos = todos.filter((todo) => todo.completed !== true);

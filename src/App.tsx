@@ -8,6 +8,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/projects/:projectId" element={<Project />} />
         <Route path="/:category" element={<Category />} />
+        <Route index element={<Category />} />
       </Route>
     </Routes>
   );
