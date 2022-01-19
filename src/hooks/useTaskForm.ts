@@ -1,15 +1,15 @@
-// Encapsulates logic for handling todo data in a todo form
+// Encapsulates logic for handling task data in a task form
 import React, { useState } from "react";
 import { useAppDispatch } from "../app/hooks";
 import uniqid from "uniqid";
-import { Todo, update as updateTodo } from "../features/todos/todosSlice";
+import { Task, update as updateTask } from "../features/tasks/tasksSlice";
 
 type ChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
 >;
 
 // making this a function so a new object is created every time it is called
-const newTodo = (): Todo => ({
+const newTask = (): Task => ({
   title: "",
   description: "",
   dueDate: "",
@@ -23,19 +23,19 @@ interface ErrorFields {
   [index: string]: boolean;
 }
 
-const useTodoForm = (data = newTodo()) => {
-  const [todo, setTodo] = useState(data);
+const useTaskForm = (data = newTask()) => {
+  const [task, setTask] = useState(data);
   const dispatch = useAppDispatch();
 
   const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.currentTarget;
-    setTodo({ ...todo, [name]: value });
+    setTask({ ...task, [name]: value });
   };
 
   const getErrors = () => {
     const fields = ["title", "projectId"];
     const errors = fields.reduce((e: ErrorFields, field) => {
-      return { ...e, [field]: todo[field] === "" };
+      return { ...e, [field]: task[field] === "" };
     }, {});
     return errors;
   };
@@ -48,14 +48,14 @@ const useTodoForm = (data = newTodo()) => {
     e.preventDefault();
     if (!isValid()) return;
 
-    dispatch(updateTodo(todo));
+    dispatch(updateTask(task));
   };
 
   const clearForm = () => {
-    setTodo(newTodo());
+    setTask(newTask());
   };
 
-  return { todo, handleChange, handleSubmit, getErrors, isValid, clearForm };
+  return { task, handleChange, handleSubmit, getErrors, isValid, clearForm };
 };
 
-export default useTodoForm;
+export default useTaskForm;

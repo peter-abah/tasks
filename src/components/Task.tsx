@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useOnClickOutside, useBoolean } from "usehooks-ts";
 import { useAppDispatch } from "../app/hooks";
-import useTodoForm from "../hooks/useTodoForm";
+import useTaskForm from "../hooks/useTaskForm";
 
 import { format } from "date-fns";
 import classnames from "classnames";
 
+import { updateTaskCompletedStatus as toggleCompleteStatus } from "../features/tasks/tasksSlice";
 import {
-  updateTodoCompletedStatus as toggleCompleteStatus,
-  remove as removeTodo,
-} from "../features/todos/todosSlice";
-import { Todo as TodoType } from "../features/todos/todosSlice";
+  Task as TaskType,
+  remove as removeTask,
+} from "../features/tasks/tasksSlice";
 
 import CloseIcon from "@mui/icons-material/Close";
 import CircleIcon from "@mui/icons-material/CircleOutlined";
@@ -19,11 +19,11 @@ import MoreIcon from "@mui/icons-material/MoreHoriz";
 
 import { motion, AnimatePresence } from "framer-motion";
 import OptionsBox from "./OptionsBox";
-import TodoFormModal from "./TodoFormModal";
+import TaskFormModal from "./TaskFormModal";
 
 const MOptionsBox = motion(OptionsBox);
 
-const Todo = (props: TodoType) => {
+const Task = (props: TaskType) => {
   const { id, title, dueDate, description, completed, priority } = props;
 
   const { value: showDescription, toggle: toggleShowDescription } =
@@ -43,11 +43,11 @@ const Todo = (props: TodoType) => {
 
   const [errorMsg, setErrorMsg] = useState("");
   const {
-    todo,
+    task,
     handleChange,
-    handleSubmit: handleTodoSubmit,
+    handleSubmit: handleTaskSubmit,
     isValid,
-  } = useTodoForm(props);
+  } = useTaskForm(props);
 
   const dispatch = useAppDispatch();
 
@@ -59,7 +59,7 @@ const Todo = (props: TodoType) => {
     e.preventDefault();
     if (isValid()) {
       toggleForm();
-      handleTodoSubmit(e);
+      handleTaskSubmit(e);
       setErrorMsg("");
     } else {
       setErrorMsg("Enter a title");
@@ -74,7 +74,7 @@ const Todo = (props: TodoType) => {
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to remove task")) {
-      dispatch(removeTodo(id));
+      dispatch(removeTask(id));
     }
   };
 
@@ -150,8 +150,8 @@ const Todo = (props: TodoType) => {
 
       <AnimatePresence>
         {showForm && (
-          <TodoFormModal
-            {...todo}
+          <TaskFormModal
+            {...task}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             closeModal={closeModal}
@@ -163,4 +163,4 @@ const Todo = (props: TodoType) => {
   );
 };
 
-export default Todo;
+export default Task;

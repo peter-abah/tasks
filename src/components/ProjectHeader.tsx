@@ -8,7 +8,7 @@ import {
   Project,
   remove as removeProject,
 } from "../features/projects/projectsSlice";
-import { removeTodosForProject } from "../features/todos/todosSlice";
+import { removeTasksForProject } from "../features/tasks/tasksSlice";
 
 import MoreIcon from "@mui/icons-material/MoreHoriz";
 import CloseIcon from "@mui/icons-material/Close";
@@ -41,7 +41,7 @@ const ProjectHeader = (props: Project) => {
 
   const handleDelete = () => {
     dispatch(removeProject(id));
-    dispatch(removeTodosForProject(id));
+    dispatch(removeTasksForProject(id));
     navigate("/");
   };
 

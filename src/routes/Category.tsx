@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
-import { selectTodosCategory } from "../features/todos/todosSlice";
+import { selectTasksCategory } from "../features/tasks/tasksSlice";
 import { useAppSelector } from "../app/hooks";
 
 import humanizeString from "humanize-string";
 
-import Todo from "../components/Todo";
-import NoTodos from '../components/NoTodos';
+import Task from "../components/Task";
+import NoTasks from '../components/NoTasks';
 
 const Category = () => {
   let { category } = useParams() as any;
   category = category || "all";
-  const todos = useAppSelector((state) => selectTodosCategory(state, category));
+  const tasks = useAppSelector((state) => selectTasksCategory(state, category));
 
-  const incompletedTodos = todos.filter((todo) => todo.completed !== true);
-  const completedTodos = todos.filter((todo) => todo.completed === true);
+  const incompletedTasks = tasks.filter((task) => task.completed !== true);
+  const completedTasks = tasks.filter((task) => task.completed === true);
 
   return (
     <div className="py-10 w-4/5 max-w-4xl mx-auto">
@@ -21,8 +21,8 @@ const Category = () => {
         <h2 className="text-xl font-bold">{humanizeString(category)}</h2>
       </header>
 
-      {todos.length === 0 ? (
-        <NoTodos />
+      {tasks.length === 0 ? (
+        <NoTasks />
       ) : (
         <>
           <div>
@@ -30,8 +30,8 @@ const Category = () => {
               Upcoming
             </h3>
             <div>
-              {incompletedTodos.map((todo) => (
-                <Todo key={todo.id} {...todo} />
+              {incompletedTasks.map((task) => (
+                <Task key={task.id} {...task} />
               ))}
             </div>
           </div>
@@ -41,8 +41,8 @@ const Category = () => {
               Completed
             </h3>
             <div>
-              {completedTodos.map((todo) => (
-                <Todo key={todo.id} {...todo} />
+              {completedTasks.map((task) => (
+                <Task key={task.id} {...task} />
               ))}
             </div>
           </div>

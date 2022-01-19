@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isPast, isToday } from "date-fns";
-import { stat } from "fs";
 import { RootState } from "../../app/store";
 
-export interface Todo {
+export interface Task {
   id: string;
   projectId: string;
   title: string;
@@ -14,20 +13,20 @@ export interface Todo {
   [index: string]: string | boolean;
 }
 
-interface IcompleteTodoActionPayload {
+interface IcompleteTaskActionPayload {
   id: string;
   completed: boolean;
 }
 
-export interface TodosState {
-  list: Todo[];
+export interface TasksState {
+  list: Task[];
   sort: {
     field: string;
     order: "asc" | "desc";
   };
 }
 
-const initialState: TodosState = {
+const initialState: TasksState = {
   list: [
     {
       projectId: '1',
@@ -118,39 +117,39 @@ const initialState: TodosState = {
   },
 };
 
-export const todosSlice = createSlice({
-  name: "todos",
+export const tasksSlice = createSlice({
+  name: "tasks",
   initialState,
   reducers: {
-    // Adds a new todo or updates an existing code
-    update(state, action: PayloadAction<Todo>) {
-      const todo = action.payload;
+    // Adds a new task or updates an existing code
+    update(state, action: PayloadAction<Task>) {
+      const task = action.payload;
 
-      // filters todo from state if its exists (existing todo)
-      state.list = state.list.filter(({ id }) => id !== todo.id);
-      state.list.push(todo);
+      // filters task from state if its exists (existing task)
+      state.list = state.list.filter(({ id }) => id !== task.id);
+      state.list.push(task);
       return state;
     },
 
     remove(state, action: PayloadAction<string>) {
       const id = action.payload;
-      state.list = state.list.filter((todo) => todo.id !== id);
+      state.list = state.list.filter((task) => task.id !== id);
       return state;
     },
 
-    updateTodoCompletedStatus(
+    updateTaskCompletedStatus(
       state,
-      action: PayloadAction<IcompleteTodoActionPayload>
+      action: PayloadAction<IcompleteTaskActionPayload>
     ) {
       const { id, completed } = action.payload;
-      const todo = state.list.filter((e) => e.id === id)[0];
-      todo.completed = completed;
+      const task = state.list.filter((e) => e.id === id)[0];
+      task.completed = completed;
     },
 
-    // removes todos from state that pass the predicate function
-    removeTodosForProject(state, action: PayloadAction<string>) {
+    // removes tasks from state that pass the predicate function
+    removeTasksForProject(state, action: PayloadAction<string>) {
       const id = action.payload;
-      state.list = state.list.filter((todo) => todo.projectId !== id);
+      state.list = state.list.filter((task) => task.projectId !== id);
       return state;
     },
   },
@@ -159,58 +158,58 @@ export const todosSlice = createSlice({
 export const {
   update,
   remove,
-  updateTodoCompletedStatus,
-  removeTodosForProject,
-} = todosSlice.actions;
+  updateTaskCompletedStatus,
+  removeTasksForProject,
+} = tasksSlice.actions;
 
-export const selectAllTodos = (state: RootState) => state.todos.list;
+export const selectAllTasks = (state: RootState) => state.tasks.list;
 
-export const selectTodayTodos = (state: RootState) => {
-  return state.todos.list.filter(
+export const selectTodayTasks = (state: RootState) => {
+  return state.tasks.list.filter(
     ({ dueDate }) => dueDate && isToday(new Date(dueDate))
   );
 };
 
-export const selectOverdueTodos = (state: RootState) => {
-  return state.todos.list.filter(({ dueDate }) => {
+export const selectOverdueTasks = (state: RootState) => {
+  return state.tasks.list.filter(({ dueDate }) => {
     const date = dueDate && new Date(dueDate);
     return date && isPast(date) && !isToday(date);
   });
 };
 
-export const selectTodosCategory = (state: RootState, category: string) => {
+export const selectTasksCategory = (state: RootState, category: string) => {
   switch (category) {
     case "today":
-      return selectTodayTodos(state);
+      return selectTodayTasks(state);
     case "overdue":
-      return selectOverdueTodos(state);
+      return selectOverdueTasks(state);
     case "all":
-      return selectAllTodos(state);
+      return selectAllTasks(state);
     default:
-      return selectAllTodos(state);
+      return selectAllTasks(state);
   }
 };
 
-export const selectTodosForProject = (state: RootState, projectId: string) => {
-  return state.todos.list.filter((todo) => todo.projectId === projectId);
+export const selectTasksForProject = (state: RootState, projectId: string) => {
+  return state.tasks.list.filter((task) => task.projectId === projectId);
 };
 
-export const selectCompletedTodosForProject = (
+export const selectCompletedTasksForProject = (
   state: RootState,
   projectId: string
 ) => {
-  return state.todos.list.filter(
-    (todo) => todo.projectId === projectId && todo.completed === true
+  return state.tasks.list.filter(
+    (task) => task.projectId === projectId && task.completed === true
   );
 };
 
-export const selectIncompletedTodosForProject = (
+export const selectIncompletedTasksForProject = (
   state: RootState,
   projectId: string
 ) => {
-  return state.todos.list.filter(
-    (todo) => todo.projectId === projectId && todo.completed === false
+  return state.tasks.list.filter(
+    (task) => task.projectId === projectId && task.completed === false
   );
 };
 
-export default todosSlice.reducer;
+export default tasksSlice.reducer;

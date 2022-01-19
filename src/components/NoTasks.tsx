@@ -1,4 +1,4 @@
-const NoTodos = () => {
+const NoTasks = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <h2 className="mx-2 pt-2 pb-8 text-xl">No tasks added yet</h2>
@@ -6,4 +6,4 @@ const NoTodos = () => {
   );
 };
 
-export default NoTodos;
+export default NoTasks;

@@ -1,24 +1,24 @@
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import Todo from "../components/Todo";
+import Task from "../components/Task";
 import ProjectHeader from "../components/ProjectHeader";
 import {
   selectProject,
 } from "../features/projects/projectsSlice";
 import {
-  selectCompletedTodosForProject as selectCompletedTodos,
-  selectIncompletedTodosForProject as selectIncompletedTodos,
-} from "../features/todos/todosSlice";
+  selectCompletedTasksForProject as selectCompletedTasks,
+  selectIncompletedTasksForProject as selectIncompletedTasks,
+} from "../features/tasks/tasksSlice";
 
 const Project = () => {
   let { projectId } = useParams() as { projectId: string };
   const project = useAppSelector((state) => selectProject(state, projectId));
 
-  const completedTodos = useAppSelector((state) =>
-    selectCompletedTodos(state, projectId)
+  const completedTasks = useAppSelector((state) =>
+    selectCompletedTasks(state, projectId)
   );
-  const incompletedTodos = useAppSelector((state) =>
-    selectIncompletedTodos(state, projectId)
+  const incompletedTasks = useAppSelector((state) =>
+    selectIncompletedTasks(state, projectId)
   );
 
   return (
@@ -29,8 +29,8 @@ const Project = () => {
           Upcoming
         </h3>
         <div>
-          {incompletedTodos.map((todo) => (
-            <Todo key={todo.id} {...todo} />
+          {incompletedTasks.map((task) => (
+            <Task key={task.id} {...task} />
           ))}
         </div>
       </div>
@@ -40,8 +40,8 @@ const Project = () => {
           Completed
         </h3>
         <div>
-          {completedTodos.map((todo) => (
-            <Todo key={todo.id} {...todo} />
+          {completedTasks.map((task) => (
+            <Task key={task.id} {...task} />
           ))}
         </div>
       </div>

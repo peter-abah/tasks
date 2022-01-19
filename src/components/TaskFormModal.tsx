@@ -19,7 +19,7 @@ interface Props {
   errorMessage: string;
 }
 
-const TodoFormModal = (props: Props) => {
+const TaskFormModal = (props: Props) => {
   const projects = useAppSelector(selectProjects);
 
   const projectOptions = projects.map(({ id, title }) => (
@@ -46,14 +46,14 @@ const TodoFormModal = (props: Props) => {
       initial={{ y: '100vh', opacity: 0 }}
       exit={{ y: '100vh', opacity: 0 }}
       transition={{ ease: "easeIn", duration: 0.5 }}
-      key="todo-form"
+      key="task-form"
       className="bg-transparent fixed top-0 left-0 h-screen w-screen z-30 flex items-center justify-center"
     >
       <form className="w-4/5 max-w-lg bg-primary shadow-lg rounded-2xl overflow-hidden text-sm">
         <div className="p-4 flex flex-col border-b border-neutral-700">
           <input
             className="mb-2 focus-visible:outline-none"
-            id="todo-title"
+            id="task-title"
             type="text"
             name="title"
             placeholder="e.g Clean the kitchen"
@@ -63,7 +63,7 @@ const TodoFormModal = (props: Props) => {
 
           <textarea
             className="h-20 focus-visible:outline-none"
-            id="todo-description"
+            id="task-description"
             name="description"
             value={description}
             placeholder="Description"
@@ -76,12 +76,12 @@ const TodoFormModal = (props: Props) => {
         <div className="p-4">
           <div className="pb-4 flex flex-wrap gap-4 justify-between items-center">
             <div>
-              <label className="pr-2" htmlFor="todo-date">
+              <label className="pr-2" htmlFor="task-date">
                 Due Date:
               </label>
               <input
                 className="p-1 border rounded-md"
-                id="todo-date"
+                id="task-date"
                 type="date"
                 name="dueDate"
                 value={dueDate}
@@ -90,13 +90,13 @@ const TodoFormModal = (props: Props) => {
             </div>
 
             <div>
-              <label className="pr-2" htmlFor="todo-priority">
+              <label className="pr-2" htmlFor="task-priority">
                 Priority:
               </label>
               <select
                 className="appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
                 name="priority"
-                id="todo-priority"
+                id="task-priority"
                 onChange={handleChange}
                 value={priority}
               >
@@ -107,14 +107,14 @@ const TodoFormModal = (props: Props) => {
             </div>
 
             <div>
-              <label className="pr-2" htmlFor="todo-project">
+              <label className="pr-2" htmlFor="task-project">
                 Project
               </label>
 
               <select
                 className="max-w-[15ch] overflow-x-hidden appearance-none text-center focus-visible:outline-none p-1 border rounded-md"
                 name="projectId"
-                id="todo-project"
+                id="task-project"
                 onChange={handleChange}
                 value={projectId}
               >
@@ -145,4 +145,4 @@ const TodoFormModal = (props: Props) => {
   );
 };
 
-export default TodoFormModal;
+export default TaskFormModal;

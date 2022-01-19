@@ -4,32 +4,32 @@ import { Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
 import { selectSideBarVisibility } from "../features/ui/uiSlice";
-import useTodoForm from "../hooks/useTodoForm";
+import useTaskForm from "../hooks/useTaskForm";
 
 import { AnimatePresence } from "framer-motion";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import TodoFormModal from "../components/TodoFormModal";
+import TaskFormModal from "../components/TaskFormModal";
 
 const Layout = () => {
   const isSideBarVisible = useAppSelector(selectSideBarVisibility);
   const [errorMsg, setErrorMsg] = useState("");
   const { value: isFormVisible, toggle: toggleForm } = useBoolean(false);
   const {
-    todo,
-    handleChange: handleTodoChange,
-    handleSubmit: handleTodoSubmit,
-    isValid: isTodoValid,
-    clearForm: clearTodoForm,
-  } = useTodoForm();
+    task,
+    handleChange: handleTaskChange,
+    handleSubmit: handleTaskSubmit,
+    isValid: isTaskValid,
+    clearForm: clearTaskForm,
+  } = useTaskForm();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (isTodoValid()) {
-      handleTodoSubmit(e);
+    if (isTaskValid()) {
+      handleTaskSubmit(e);
       toggleForm();
-      clearTodoForm();
+      clearTaskForm();
       setErrorMsg("");
     } else {
       setErrorMsg("Enter a title");
@@ -39,7 +39,7 @@ const Layout = () => {
   const closeModal = () => {
     if (window.confirm("Are you sure. All changes will be lost")) {
       toggleForm();
-      clearTodoForm();
+      clearTaskForm();
     }
   };
 
@@ -52,9 +52,9 @@ const Layout = () => {
       </div>
       <AnimatePresence>
         {isFormVisible && (
-          <TodoFormModal
-            {...todo}
-            handleChange={handleTodoChange}
+          <TaskFormModal
+            {...task}
+            handleChange={handleTaskChange}
             handleSubmit={handleSubmit}
             closeModal={closeModal}
             errorMessage={errorMsg}
