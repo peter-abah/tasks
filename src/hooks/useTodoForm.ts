@@ -13,7 +13,7 @@ const newTodo = (): Todo => ({
   title: "",
   description: "",
   dueDate: "",
-  priority: "",
+  priority: "low",
   id: uniqid(),
   projectId: "default",
   completed: false,
