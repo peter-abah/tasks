@@ -17,8 +17,11 @@ import CircleIcon from "@mui/icons-material/CircleOutlined";
 import CheckedCircleIcon from "@mui/icons-material/CheckCircleOutline";
 import MoreIcon from "@mui/icons-material/MoreHoriz";
 
+import { motion, AnimatePresence } from "framer-motion";
 import OptionsBox from "./OptionsBox";
 import TodoFormModal from "./TodoFormModal";
+
+const MOptionsBox = motion(OptionsBox);
 
 const Todo = (props: TodoType) => {
   const { id, title, dueDate, description, completed, priority } = props;
@@ -38,7 +41,7 @@ const Todo = (props: TodoType) => {
   const outsideClickHandler = () => setShowOptions(false);
   useOnClickOutside(optionsRef, outsideClickHandler);
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const {
     todo,
     handleChange,
@@ -57,9 +60,9 @@ const Todo = (props: TodoType) => {
     if (isValid()) {
       toggleForm();
       handleTodoSubmit(e);
-      setErrorMsg('');
+      setErrorMsg("");
     } else {
-      setErrorMsg('Enter a title');
+      setErrorMsg("Enter a title");
     }
   };
 
@@ -101,36 +104,57 @@ const Todo = (props: TodoType) => {
             <CircleIcon className={checkBoxClass} />
           )}
         </button>
-        <div
+        <button
           onClick={toggleShowDescription}
-          className="py-2 flex flex-col flex-grow"
+          className={classnames("py-2 flex flex-col flex-grow", {
+            "!cursor-text": !showDescription,
+          })}
         >
           <h3>{title}</h3>
           {date && <span className="mt-1 text-xs">{date}</span>}
-        </div>
+        </button>
         <button onClick={toggleOptions}>
           {showOptions ? <CloseIcon /> : <MoreIcon />}
         </button>
       </div>
-      {showDescription && description && (
-        <p className="ml-10 mb-2">{description}</p>
-      )}
-      {showOptions && (
-        <OptionsBox
-          ref={optionsRef}
-          handleEdit={toggleForm}
-          handleDelete={handleDelete}
-        />
-      )}
-      {showForm && (
-        <TodoFormModal
-          {...todo}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          closeModal={closeModal}
-          errorMessage={errorMsg}
-        />
-      )}
+      <AnimatePresence>
+        {showDescription && description && (
+          <motion.p
+            animate={{ opacity: 1, scaleY: 1 }}
+            initial={{ opacity: 0, scaleY: 0 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            transition={{ ease: "easeOut", duration: 0.3 }}
+            style={{ originY: 0 }}
+            className="ml-10 mb-2"
+          >
+            {description}
+          </motion.p>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showOptions && (
+          <MOptionsBox
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            ref={optionsRef}
+            handleEdit={toggleForm}
+            handleDelete={handleDelete}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showForm && (
+          <TodoFormModal
+            {...todo}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            closeModal={closeModal}
+            errorMessage={errorMsg}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
