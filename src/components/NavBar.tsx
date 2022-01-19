@@ -3,6 +3,10 @@ import {
   selectSideBarVisibility,
   updateSideBarVisibility,
 } from "../features/ui/uiSlice";
+
+import { Link } from "react-router-dom";
+
+import HomeIcon from "@mui/icons-material/HomeOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/AddCircleOutline";
@@ -19,12 +23,14 @@ const NavBar = ({ openModal }: Iprops) => {
     dispatch(updateSideBarVisibility(!isSideBarVisible));
 
   return (
-    <nav className="bg-nav h-10 flex items-center justify-between px-3 shadow-navBar z-20">
+    <nav className="bg-nav flex items-center justify-between px-3 py-2 shadow-navBar z-20 md:px-12">
       <div className="flex gap-4">
         <button onClick={toggleSideBar}>
           {isSideBarVisible ? <CloseIcon /> : <MenuIcon />}
         </button>
-        <h1>Todo</h1>
+        <Link to="/">
+          <HomeIcon />
+        </Link>
       </div>
       <button onClick={openModal}>
         <AddIcon />
