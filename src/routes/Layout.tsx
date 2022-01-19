@@ -50,15 +50,17 @@ const Layout = () => {
         <AnimatePresence>{isSideBarVisible && <SideBar />}</AnimatePresence>
         <Outlet />
       </div>
-      {isFormVisible && (
-        <TodoFormModal
-          {...todo}
-          handleChange={handleTodoChange}
-          handleSubmit={handleSubmit}
-          closeModal={closeModal}
-          errorMessage={errorMsg}
-        />
-      )}
+      <AnimatePresence>
+        {isFormVisible && (
+          <TodoFormModal
+            {...todo}
+            handleChange={handleTodoChange}
+            handleSubmit={handleSubmit}
+            closeModal={closeModal}
+            errorMessage={errorMsg}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { useAppSelector } from "../app/hooks";
 import { selectProjects } from "../features/projects/projectsSlice";
+import { motion } from "framer-motion";
 
 interface Props {
   title: string;
@@ -40,7 +41,14 @@ const TodoFormModal = (props: Props) => {
   } = props;
 
   return (
-    <div className="bg-transparent fixed top-0 left-0 h-screen w-screen z-30 flex items-center justify-center">
+    <motion.div
+      animate={{ y: 0, opacity: 1 }}
+      initial={{ y: '100vh', opacity: 0 }}
+      exit={{ y: '100vh', opacity: 0 }}
+      transition={{ ease: "easeIn", duration: 0.5 }}
+      key="todo-form"
+      className="bg-transparent fixed top-0 left-0 h-screen w-screen z-30 flex items-center justify-center"
+    >
       <form className="w-4/5 max-w-lg bg-primary shadow-lg rounded-2xl overflow-hidden text-sm">
         <div className="p-4 flex flex-col border-b border-neutral-700">
           <input
@@ -133,7 +141,7 @@ const TodoFormModal = (props: Props) => {
           </div>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
