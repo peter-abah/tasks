@@ -4,11 +4,14 @@ import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { selectProjects, update } from "../features/projects/projectsSlice";
 import { updateSideBarVisibility } from "../features/ui/uiSlice";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 import uniqid from "uniqid";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectLink from "./ProjectLink";
 import ProjectForm from "./ProjectForm";
-import CategoriesBar from './CategoriesBar';
+import CategoriesBar from "./CategoriesBar";
+import { useBoolean } from "usehooks-ts";
 
 type ChangeEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -18,12 +21,15 @@ const newProject = {
 };
 
 const SideBar = () => {
-  const [isFormVisible, setFormVisible] = useState(false);
+  const {
+    value: isFormVisible,
+    setValue: setFormVisible,
+    toggle: toggleForm,
+  } = useBoolean(false);
+
   const [project, setProject] = useState(newProject);
   const projects = useAppSelector(selectProjects);
   const dispatch = useAppDispatch();
-
-  const toggleForm = () => setFormVisible(!isFormVisible);
 
   const handleChange = (e: ChangeEvent) => {
     const { value } = e.target;
@@ -45,7 +51,14 @@ const SideBar = () => {
   const closeSideBar = () => dispatch(updateSideBarVisibility(false));
 
   return (
-    <aside className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] h-full pl-7 pr-4 py-3 z-10 text-sm">
+    <motion.aside
+      key="sidebar"
+      animate={{ x: 0 }}
+      initial={{ x: -300 }}
+      transition={{ ease: "easeIn", duration: 0.5 }}
+      exit={{ x: -300 }}
+      className="!bg-nav absolute top-0 left-0 w-80 max-w-[100vw] h-full pl-7 pr-4 py-3 z-10 text-sm"
+    >
       <CategoriesBar closeSideBar={closeSideBar} />
       <header className="flex justify-between items-center py-3">
         <h2 className="font-bold">Projects</h2>
@@ -55,7 +68,11 @@ const SideBar = () => {
       </header>
       <ul>
         {projects.map((project) => (
-          <ProjectLink key={project.id} handleClick={closeSideBar} project={project} />
+          <ProjectLink
+            key={project.id}
+            handleClick={closeSideBar}
+            project={project}
+          />
         ))}
       </ul>
 
@@ -67,7 +84,7 @@ const SideBar = () => {
           handleClose={toggleForm}
         />
       )}
-    </aside>
+    </motion.aside>
   );
 };
 

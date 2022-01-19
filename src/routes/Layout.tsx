@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useBoolean } from "usehooks-ts";
 import { Outlet } from "react-router-dom";
+
 import { useAppSelector } from "../app/hooks";
 import { selectSideBarVisibility } from "../features/ui/uiSlice";
 import useTodoForm from "../hooks/useTodoForm";
+
+import { AnimatePresence } from "framer-motion";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import TodoFormModal from "../components/TodoFormModal";
@@ -44,7 +47,7 @@ const Layout = () => {
     <main className="h-full flex flex-col items-stretch">
       <NavBar openModal={toggleForm} />
       <div className="flex flex-col items-stretch relative h-full">
-        {isSideBarVisible && <SideBar />}
+        <AnimatePresence>{isSideBarVisible && <SideBar />}</AnimatePresence>
         <Outlet />
       </div>
       {isFormVisible && (
