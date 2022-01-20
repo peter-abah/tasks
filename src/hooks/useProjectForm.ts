@@ -10,14 +10,14 @@ const newProject = (): Project => {
   return { title: "", id: uniqid() };
 };
 
-const useProjectForm = (data = newProject()) => {
+const useProjectForm = (mode: string, data = newProject()) => { // this is a hack will fix later
   const dispatch = useAppDispatch();
   const [project, setProject] = useState(data);
 
   // changes project data to new data if project changes
   useEffect(() => {
-    if(project.id !== data.id) setProject(data);
-  });
+    if(project.id !== data.id && mode !== 'new') setProject(data);
+  }, [project, data]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

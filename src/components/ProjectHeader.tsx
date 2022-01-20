@@ -32,7 +32,7 @@ const ProjectHeader = (props: Project) => {
     handleChange,
     handleSubmit: handleProjectSubmit,
     isValid,
-  } = useProjectForm(props);
+  } = useProjectForm('edit', props);
   const dispatch = useAppDispatch();
 
   const optionsRef = useRef<HTMLDivElement>(null);
