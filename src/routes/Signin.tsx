@@ -1,5 +1,5 @@
 import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FormField from "../components/FormField";
 import { useAppDispatch } from "../app/hooks";
 import * as Yup from "yup";
@@ -51,7 +51,18 @@ const Signin = () => {
 
           <FormField label="Password:" name="password" type="password" />
 
-          <button className="block w-full px-3 py-1 border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg" type="submit">Sign in</button>
+          <button
+            className="block w-full px-3 py-1 mb-3 border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg transition-transform active:scale-95 hover:bg-emerald-700"
+            type="submit"
+          >
+            Sign in
+          </button>
+          <Link
+            className="block w-full px-3 py-1 text-center border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg transition-transform active:scale-95 hover:bg-emerald-700"
+            to="/signup"
+          >
+            Sign up
+          </Link>
         </Form>
       </div>
     </Formik>

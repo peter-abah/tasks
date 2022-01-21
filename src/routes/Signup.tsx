@@ -1,5 +1,5 @@
 import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FormField from "../components/FormField";
 import { useAppDispatch } from "../app/hooks";
 import * as Yup from "yup";
@@ -48,7 +48,7 @@ const Signup = () => {
           .catch((e) => handleErrors(e, setFieldError));
       }}
     >
-      <div className="flex flex-col w-screen max-w-xs mx-auto my-16 p-4 shadow-lg rounded-xl">
+      <div className="flex flex-col w-screen max-w-xs h-fit mx-auto my-16 px-4 py-6 shadow-lg rounded-xl">
         <h1 className="text-2xl font-bold pb-4">Sign up</h1>
         <Form>
           <FormField
@@ -73,7 +73,19 @@ const Signup = () => {
             type="password"
           />
 
-          <button className="block px-3 py-1 bg-emerald-700 rounded-lg mx-auto mt-4 text-lg shadow-md" type="submit">Sign up</button>
+          <button
+            className="w-full block px-3 py-1 border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg shadow-md active:scale-95 hover:bg-emerald-700"
+            type="submit"
+          >
+            Sign up
+          </button>
+
+          <Link
+            className="block w-full px-3 py-1 text-center border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg transition-transform active:scale-95 hover:bg-emerald-700"
+            to="/signin"
+          >
+            Sign in
+          </Link>
         </Form>
       </div>
     </Formik>

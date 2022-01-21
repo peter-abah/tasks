@@ -11,8 +11,8 @@ function App() {
 
   useEffect(() => {
     !user && navigate('/signin');
-  });
-  
+  }, [user]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
