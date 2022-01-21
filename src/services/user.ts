@@ -1,25 +1,32 @@
-import { AuthErrorCodes, AuthError } from 'firebase/auth';
+import { AuthErrorCodes, AuthError } from "firebase/auth";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 
 type IsetError = (field: string, msg: string) => void;
 
 export const handleErrors = (e: AuthError, setError: IsetError) => {
   switch (e.code) {
     case AuthErrorCodes.EMAIL_EXISTS:
-      setError('email', 'Email has been used');
+      setError("email", "Email has been used");
       break;
     case AuthErrorCodes.INVALID_EMAIL:
-      setError('email', 'Invalid email');
+      setError("email", "Invalid email");
       break;
     case AuthErrorCodes.INVALID_PASSWORD:
-      setError('password', 'Password is incorrect');
+      setError("password", "Password is incorrect");
+      break;
+    case AuthErrorCodes.USER_DELETED:
+      setError("email", "Email not found");
       break;
     default:
-      setError('password', 'Unknown error');
+      setError("password", e.code);
       break;
   }
-}
+};
 
 export const signupUser = async (
   name: string,
@@ -39,7 +46,15 @@ export const signupUser = async (
       email: auth.currentUser.email,
     };
   } else {
-    debugger;
-    throw 'Invalid';
+    throw "invalid";
+  }
+};
+
+export const signinUser = async (email: string, password: string) => {
+  const { user } = await signInWithEmailAndPassword(auth, email, password);
+  if (user.displayName && user.email) {
+    return { name: user.displayName, email: user.email };
+  } else {
+    throw user;
   }
 };
