@@ -10,7 +10,11 @@ interface IuserState {
   user?: Iuser;
 }
 
-const initialState: IuserState = {};
+// get user from local storage
+const storedUser = localStorage.getItem("user");
+const initialState: IuserState = storedUser
+  ? { user: JSON.parse(storedUser) }
+  : {};
 
 const usersSlice = createSlice({
   name: "users",
@@ -23,7 +27,7 @@ const usersSlice = createSlice({
     logoutUser(state) {
       delete state.user;
       return state;
-    }
+    },
   },
 });
 

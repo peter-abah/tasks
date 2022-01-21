@@ -14,6 +14,12 @@ export const store = configureStore({
   },
 });
 
+// save users state to local storage
+store.subscribe(() => {
+  const user = store.getState().users.user || '';
+  window.localStorage.setItem('user', JSON.stringify(user));
+})
+
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
