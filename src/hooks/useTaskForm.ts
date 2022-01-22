@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { selectUser } from "../features/users/usersSlice";
 import { Task, update as updateTask } from "../features/tasks/tasksSlice";
 import { updateTask as updateTaskInFirestore } from "../services/tasks";
+import { updateLoading } from "../features/ui/uiSlice";
 
 type ChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -51,11 +52,13 @@ const useTaskForm = (data = newTask()) => {
     e.preventDefault();
     if (!isValid()) return;
 
+    dispatch(updateLoading(true));
     updateTaskInFirestore(user.uid, task)
       .then(() => dispatch(updateTask(task)))
       .catch((e) => {
         debugger;
-      });
+      })
+      .finally(() => dispatch(updateLoading(false)));
   };
 
   const clearForm = () => {

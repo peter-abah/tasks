@@ -5,6 +5,7 @@ import {
   update as updateProject,
   Project,
 } from "../features/projects/projectsSlice";
+import { updateLoading } from "../features/ui/uiSlice";
 import { selectUser } from "../features/users/usersSlice";
 import { updateProject as updateProjectInFirestore } from "../services/projects";
 
@@ -33,11 +34,13 @@ const useProjectForm = (mode: string, data = newProject()) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isValid()) {
+      dispatch(updateLoading(true));
       updateProjectInFirestore(user.uid, project)
         .then(() => dispatch(updateProject(project)))
         .catch((e) => {
           debugger;
-        });
+        })
+        .finally(() => dispatch(updateLoading(false)));
     }
   };
 
