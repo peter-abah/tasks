@@ -6,6 +6,8 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import { updateProject } from './projects';
+
 type IsetError = (field: string, msg: string) => void;
 
 export const handleErrors = (e: AuthError, setError: IsetError) => {
@@ -28,6 +30,11 @@ export const handleErrors = (e: AuthError, setError: IsetError) => {
   }
 };
 
+const addDefaultData = async (uid: string) => {
+  const project = {title: 'Default', id: 'default'};
+  await updateProject(uid, project);
+};
+
 export const signupUser = async (
   name: string,
   email: string,
@@ -38,12 +45,20 @@ export const signupUser = async (
     email,
     password
   );
-  await updateProfile(userCredential.user, { displayName: name });
+  await Promise.all([
+    updateProfile(userCredential.user, { displayName: name }),
+    addDefaultData(userCredential.user.uid),
+  ]);
 
-  if (auth.currentUser?.displayName && auth.currentUser?.email) {
+  if (
+    auth.currentUser?.displayName &&
+    auth.currentUser?.email &&
+    auth.currentUser.uid
+  ) {
     return {
-      name: auth.currentUser.displayName,
+      displayName: auth.currentUser.displayName,
       email: auth.currentUser.email,
+      uid: auth.currentUser.uid,
     };
   } else {
     throw "invalid";
