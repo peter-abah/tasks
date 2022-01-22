@@ -1,5 +1,5 @@
 import { Task as Itask } from "../features/tasks/tasksSlice";
-import Task from './Task';
+import Task from "./Task";
 
 interface Iprops {
   incompletedTasks: Itask[];
