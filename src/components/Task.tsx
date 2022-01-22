@@ -1,16 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useOnClickOutside, useBoolean } from "usehooks-ts";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import useTaskForm from "../hooks/useTaskForm";
 
 import { format } from "date-fns";
 import classnames from "classnames";
 
-import { updateTaskCompletedStatus as toggleCompleteStatus } from "../features/tasks/tasksSlice";
 import {
   Task as TaskType,
   remove as removeTask,
+  update as updateTask,
 } from "../features/tasks/tasksSlice";
+import { selectUser } from "../features/users/usersSlice";
+import { updateLoading } from "../features/ui/uiSlice";
+import {
+  deleteTask as deleteTaskFromFirestore,
+  updateTask as updateTaskInFireStore,
+} from "../services/tasks";
 
 import CloseIcon from "@mui/icons-material/Close";
 import CircleIcon from "@mui/icons-material/CircleOutlined";
@@ -23,8 +29,10 @@ import TaskFormModal from "./TaskFormModal";
 
 const MOptionsBox = motion(OptionsBox);
 
-const Task = (props: TaskType) => {
-  const { id, title, dueDate, description, completed, priority } = props;
+const Task = (props: {task: TaskType}) => {
+  const { id, title, dueDate, description, completed, priority } = props.task;
+
+  const user = useAppSelector(selectUser);
 
   const { value: showDescription, toggle: toggleShowDescription } =
     useBoolean(false);
@@ -47,12 +55,18 @@ const Task = (props: TaskType) => {
     handleChange,
     handleSubmit: handleTaskSubmit,
     isValid,
-  } = useTaskForm(props);
+  } = useTaskForm(props.task);
 
   const dispatch = useAppDispatch();
 
   const toggleComplete = () => {
-    dispatch(toggleCompleteStatus({ id, completed: !completed }));
+    const task = props.task;
+    dispatch(updateLoading(true));
+
+    updateTaskInFireStore(user.uid, { ...task, completed: !task.completed })
+      .then(() => dispatch(updateTask({ ...task, completed: !task.completed })))
+      .catch((e) => console.error(e))
+      .finally(() => dispatch(updateLoading(false)));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -74,7 +88,12 @@ const Task = (props: TaskType) => {
 
   const handleDelete = () => {
     if (window.confirm("Are you sure you want to remove task")) {
-      dispatch(removeTask(id));
+      dispatch(updateLoading(true));
+
+      deleteTaskFromFirestore(user.uid, props.task)
+        .then(() => dispatch(removeTask(id)))
+        .catch((e) => console.error(e))
+        .finally(() => dispatch(updateLoading(false)));
     }
   };
 

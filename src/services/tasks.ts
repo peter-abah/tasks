@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { getDocs, setDoc, doc, collection } from "firebase/firestore";
+import { getDocs, setDoc, doc, collection, deleteDoc } from "firebase/firestore";
 import { getAllProjects } from "./projects";
 import { Task } from "../features/tasks/tasksSlice";
 
@@ -8,6 +8,11 @@ import { Task } from "../features/tasks/tasksSlice";
 export const updateTask = async (uid: string, task: Task) => {
   const path = `users/${uid}/projects/${task.projectId}/tasks`;
   await setDoc(doc(db, path, task.id), { ...task });
+};
+
+export const deleteTask = async (uid: string, task: Task) => {
+  const path = `users/${uid}/projects/${task.projectId}/tasks`
+  await deleteDoc(doc(db, path, task.id))
 };
 
 // gets all tasks for user from firestore

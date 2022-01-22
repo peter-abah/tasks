@@ -15,7 +15,7 @@ const Tasks = ({ incompletedTasks, completedTasks }: Iprops) => {
         </h3>
         <div>
           {incompletedTasks.map((task) => (
-            <Task key={task.id} {...task} />
+            <Task key={task.id} task={task} />
           ))}
         </div>
       </div>
@@ -26,7 +26,7 @@ const Tasks = ({ incompletedTasks, completedTasks }: Iprops) => {
         </h3>
         <div>
           {completedTasks.map((task) => (
-            <Task key={task.id} {...task} />
+            <Task key={task.id} task={task} />
           ))}
         </div>
       </div>
