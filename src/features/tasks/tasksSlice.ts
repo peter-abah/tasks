@@ -27,90 +27,7 @@ export interface TasksState {
 }
 
 const initialState: TasksState = {
-  list: [
-    {
-      projectId: '1',
-      title: 'A big always big',
-      dueDate: new Date().toString(),
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '1'
-    },
-    {
-      projectId: '1',
-      title: 'A bigger always big',
-      dueDate: '',
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '2'
-    },
-    {
-      projectId: '1',
-      title: 'THis is wonderful',
-      dueDate: new Date().toString(),
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '3'
-    },
-    {
-      projectId: '2',
-      title: 'A 2 big e always big',
-      dueDate: '',
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '4'
-    },
-    {
-      projectId: '2',
-      title: 'A 2 big always big',
-      dueDate: '',
-      description: new Date().toString(),
-      completed: false,
-      priority: 'low',
-      id: '5'
-    },
-    {
-      projectId: '2',
-      title: 'A 10 big always big',
-      dueDate: '',
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '6'
-    },
-    {
-      projectId: 'default',
-      title: 'A big why me always big',
-      dueDate: '',
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '7'
-    },
-    {
-      projectId: 'default',
-      title: 'A big bess always big',
-      dueDate: new Date().toString(),
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '8'
-    },
-    {
-      projectId: 'default',
-      title: 'A big bess boss always big',
-      dueDate: '',
-      description: '',
-      completed: false,
-      priority: 'low',
-      id: '9'
-    },
-    
-  ],
+  list: [],
   sort: {
     field: "",
     order: "asc",
@@ -156,7 +73,7 @@ export const tasksSlice = createSlice({
     setAllTasks(state, action: PayloadAction<any[]>) {
       state.list = action.payload;
       return state;
-    }
+    },
   },
 });
 

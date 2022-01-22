@@ -1,8 +1,9 @@
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import FormField from "../components/FormField";
 import { useAppDispatch } from "../app/hooks";
-import * as Yup from "yup";
+import { updateAppLoading } from "../features/ui/uiSlice";
 
 import { signupUser, handleErrors } from "../services/user";
 import { loginUser, Iuser } from "../features/users/usersSlice";
@@ -43,6 +44,7 @@ const Signup = () => {
         ),
       })}
       onSubmit={({ name, email, password }, { setFieldError }) => {
+        dispatch(updateAppLoading(true))
         signupUser(name, email, password)
           .then(handleSuccess)
           .catch((e) => handleErrors(e, setFieldError));

@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import {
   selectIsLoading,
+  selectAppLoading,
   selectSideBarVisibility,
   updateSideBarVisibility,
 } from "../features/ui/uiSlice";
@@ -15,10 +16,12 @@ import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import TaskFormModal from "../components/TaskFormModal";
 import LoadingBar from "../components/LoadingBar";
+import MainLoadingAnim from "../components/MainLoadingAnim";
 
 const Layout = () => {
   const isSideBarVisible = useAppSelector(selectSideBarVisibility);
   const isLoading = useAppSelector(selectIsLoading);
+  const appLoading = useAppSelector(selectAppLoading);
 
   const [errorMsg, setErrorMsg] = useState("");
   const { value: isFormVisible, toggle: toggleForm } = useBoolean(false);
@@ -57,6 +60,8 @@ const Layout = () => {
       clearTaskForm();
     }
   };
+
+  if (appLoading) return <MainLoadingAnim />;
 
   return (
     <main className="h-full flex flex-col items-stretch">

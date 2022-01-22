@@ -8,6 +8,7 @@ import { setAllTasks } from "./features/tasks/tasksSlice";
 import { setAllProjects } from "./features/projects/projectsSlice";
 
 import { getAllData } from "./services/tasks";
+import { updateAppLoading } from "./features/ui/uiSlice";
 
 function App() {
   const navigate = useNavigate();
@@ -28,9 +29,12 @@ function App() {
   useEffect(() => {
     if (!user.uid) return;
 
+    dispatch(updateAppLoading(true))
+
     getAllData(user.uid)
       .then(setAllData)
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => dispatch(updateAppLoading(false)));
   }, [user.uid]);
 
   return (

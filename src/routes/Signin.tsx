@@ -6,6 +6,7 @@ import * as Yup from "yup";
 
 import { signinUser, handleErrors } from "../services/user";
 import { loginUser, Iuser } from "../features/users/usersSlice";
+import { updateAppLoading } from "../features/ui/uiSlice";
 
 const emailRegex =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -34,6 +35,7 @@ const Signin = () => {
           .min(8, "Password is too short - should be 8 characters minimum"),
       })}
       onSubmit={({ email, password }, { setFieldError }) => {
+        dispatch(updateAppLoading(true));
         signinUser(email, password)
           .then(handleSuccess)
           .catch((e) => handleErrors(e, setFieldError));
