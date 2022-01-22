@@ -28,7 +28,7 @@ const projectsSlice = createSlice({
   initialState,
   reducers: {
     // Adds a new project or updates an existing project
-    update: (state, action: PayloadAction<Project>) => {
+    update(state, action: PayloadAction<Project>) {
       const project = action.payload;
 
       // filters project from state if its exists (existing project)
@@ -36,14 +36,18 @@ const projectsSlice = createSlice({
       return [...filtered, project];
     },
 
-    remove: (state, action: PayloadAction<string>) => {
+    remove(state, action: PayloadAction<string>) {
       const id = action.payload;
       return state.filter((project) => project.id !== id);
+    },
+
+    setAllProjects(state, action: PayloadAction<any[]>) {
+      return action.payload;
     },
   },
 });
 
-export const { update, remove } = projectsSlice.actions;
+export const { update, remove, setAllProjects } = projectsSlice.actions;
 
 export const selectProjects = (state: RootState) => state.projects;
 
