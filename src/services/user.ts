@@ -50,10 +50,12 @@ export const signupUser = async (
   }
 };
 
-export const signinUser = async (email: string, password: string) => {
-  const { user } = await signInWithEmailAndPassword(auth, email, password);
-  if (user.displayName && user.email) {
-    return { name: user.displayName, email: user.email };
+export const signinUser = async (uEmail: string, password: string) => {
+  const { user } = await signInWithEmailAndPassword(auth, uEmail, password);
+  const { displayName, email, uid } = user;
+
+  if (displayName && email && uid) {
+    return { displayName, email, uid };
   } else {
     throw user;
   }
