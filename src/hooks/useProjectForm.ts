@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
 import uniqid from "uniqid";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   update as updateProject,
   Project,
 } from "../features/projects/projectsSlice";
+import { selectUser } from "../features/users/usersSlice";
+import { updateProject as updateProjectInFirestore } from "../services/projects";
 
 const newProject = (): Project => {
   return { title: "", id: uniqid() };
 };
 
-const useProjectForm = (mode: string, data = newProject()) => { // this is a hack will fix later
+const useProjectForm = (mode: string, data = newProject()) => {
+  // this is a hack will fix later
+  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const [project, setProject] = useState(data);
 
   // changes project data to new data if project changes
   useEffect(() => {
-    if(project.id !== data.id && mode !== 'new') setProject(data);
+    if (project.id !== data.id && mode !== "new") setProject(data);
   }, [project, data]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +33,11 @@ const useProjectForm = (mode: string, data = newProject()) => { // this is a hac
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isValid()) {
-      dispatch(updateProject(project));
+      updateProjectInFirestore(user.uid, project)
+        .then(() => dispatch(updateProject(project)))
+        .catch((e) => {
+          debugger;
+        });
     }
   };
 

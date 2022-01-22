@@ -1,8 +1,10 @@
 // Encapsulates logic for handling task data in a task form
 import React, { useState } from "react";
-import { useAppDispatch } from "../app/hooks";
 import uniqid from "uniqid";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { selectUser } from "../features/users/usersSlice";
 import { Task, update as updateTask } from "../features/tasks/tasksSlice";
+import { updateTask as updateTaskInFirestore } from "../services/tasks";
 
 type ChangeEvent = React.ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -24,6 +26,7 @@ interface ErrorFields {
 }
 
 const useTaskForm = (data = newTask()) => {
+  const user = useAppSelector(selectUser);
   const [task, setTask] = useState(data);
   const dispatch = useAppDispatch();
 
@@ -44,11 +47,15 @@ const useTaskForm = (data = newTask()) => {
     return Object.values(getErrors()).every((isError) => isError === false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isValid()) return;
 
-    dispatch(updateTask(task));
+    updateTaskInFirestore(user.uid, task)
+      .then(() => dispatch(updateTask(task)))
+      .catch((e) => {
+        debugger;
+      });
   };
 
   const clearForm = () => {
