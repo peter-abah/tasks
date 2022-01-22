@@ -42,7 +42,7 @@ const NavBar = ({ openModal }: Iprops) => {
         </button>
         {user ? (
           <div className="px-4">
-            <span className="px-2">{user.name}</span>
+            <span className="px-2">{user.displayName}</span>
             <button className="px-2" onClick={logOut}>Log out</button>
           </div>
         ) : (

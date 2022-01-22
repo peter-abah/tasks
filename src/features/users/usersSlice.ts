@@ -2,19 +2,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 export interface Iuser {
-  name: string;
+  displayName: string;
   email: string;
+  uid: string;
 }
 
 interface IuserState {
-  user?: Iuser;
+  user: Iuser;
 }
+
+const emptyUser = {
+  displayName: "",
+  email: "",
+  uid: "",
+};
 
 // get user from local storage
 const storedUser = localStorage.getItem("user");
-const initialState: IuserState = storedUser
-  ? { user: JSON.parse(storedUser) }
-  : {};
+const user: Iuser = storedUser ? JSON.parse(storedUser) : emptyUser;
+const initialState = { user };
 
 const usersSlice = createSlice({
   name: "users",
@@ -25,8 +31,7 @@ const usersSlice = createSlice({
       return state;
     },
     logoutUser(state) {
-      delete state.user;
-      return state;
+      state.user = emptyUser;
     },
   },
 });
