@@ -152,6 +152,11 @@ export const tasksSlice = createSlice({
       state.list = state.list.filter((task) => task.projectId !== id);
       return state;
     },
+
+    setAllTasks(state, action: PayloadAction<any[]>) {
+      state.list = action.payload;
+      return state;
+    }
   },
 });
 
@@ -160,6 +165,7 @@ export const {
   remove,
   updateTaskCompletedStatus,
   removeTasksForProject,
+  setAllTasks,
 } = tasksSlice.actions;
 
 export const selectAllTasks = (state: RootState) => state.tasks.list;
