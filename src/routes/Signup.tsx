@@ -9,7 +9,7 @@ import { signupUser, handleErrors } from "../services/user";
 import { loginUser, Iuser } from "../features/users/usersSlice";
 
 const emailRegex =
-/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Signup = () => {
         ),
       })}
       onSubmit={({ name, email, password }, { setFieldError }) => {
-        dispatch(updateAppLoading(true))
+        dispatch(updateAppLoading(true));
         signupUser(name, email, password)
           .then(handleSuccess)
           .catch((e) => handleErrors(e, setFieldError));
@@ -57,6 +57,7 @@ const Signup = () => {
             label="Name:"
             name="name"
             type="text"
+            autoComplete="name"
             placeholder="Peter"
           />
 
@@ -64,14 +65,21 @@ const Signup = () => {
             label="Email:"
             name="email"
             type="email"
+            autoComplete="email"
             placeholder="peter@email.com"
           />
 
-          <FormField label="Password:" name="password" type="password" />
+          <FormField
+            label="Password:"
+            name="password"
+            type="password"
+            autoComplete="new-password"
+          />
 
           <FormField
             label="Confirm Password:"
             name="passwordConfirmation"
+            autoComplete="new-password"
             type="password"
           />
 

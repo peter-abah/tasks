@@ -36,21 +36,22 @@ const NavBar = ({ openModal }: Iprops) => {
           <HomeIcon />
         </Link>
       </div>
-      <div className="flex">
-        <button onClick={openModal}>
+      <div className="flex items-center">
+        <button
+          className="p-1.5 rounded-full hover:bg-neutral-800 hover:scale-105"
+          onClick={openModal}
+        >
           <AddIcon />
         </button>
-        {user ? (
-          <div className="px-4">
-            <span className="px-2">{user.displayName}</span>
-            <button className="px-2" onClick={logOut}>Log out</button>
-          </div>
-        ) : (
-          <div className="px-4">
-            <Link className="px-2" to="signin">Sign in</Link>
-            <Link className="px-2" to="signup">Sign up</Link>
-          </div>
-        )}
+        <div className="px-4">
+          <span className="px-2 mr-2">{user.displayName}</span>
+          <button
+            className="p-1 hover:border-b-2 border-b"
+            onClick={logOut}
+          >
+            Log out
+          </button>
+        </div>
       </div>
     </nav>
   );

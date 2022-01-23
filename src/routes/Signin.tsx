@@ -48,10 +48,11 @@ const Signin = () => {
             label="Email:"
             name="email"
             type="email"
+            autoComplete="email"
             placeholder="peter@email.com"
           />
 
-          <FormField label="Password:" name="password" type="password" />
+          <FormField label="Password:" name="password" type="password" autoComplete="current-password" />
 
           <button
             className="block w-full px-3 py-1 mb-3 border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg transition-transform active:scale-95 hover:bg-emerald-700"

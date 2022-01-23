@@ -6,6 +6,7 @@ interface Iprops {
   name: string;
   type: string;
   placeholder?: string;
+  autoComplete?: string;
 }
 
 const FormField = ({ label, ...props }: Iprops) => {
