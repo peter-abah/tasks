@@ -23,6 +23,8 @@ const Project = () => {
   );
   const tasksLength = completedTasks.length + incompletedTasks.length;
 
+  if (!project) return null; // to solve a bug
+
   return (
     <div className="py-10 w-4/5 max-w-4xl mx-auto">
       <ProjectHeader project={project} />

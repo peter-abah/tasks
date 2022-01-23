@@ -82,6 +82,7 @@ const Signin = () => {
             Sign up
           </Link>
           <button
+            type="button"
             onClick={signinAnonymous}
             className="block w-full px-3 py-1 text-center border-blue-700 border-2 rounded-lg mx-auto mt-10 text-lg transition-transform active:scale-95 hover:bg-blue-700"
           >
