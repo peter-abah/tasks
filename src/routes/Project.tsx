@@ -25,7 +25,7 @@ const Project = () => {
 
   return (
     <div className="py-10 w-4/5 max-w-4xl mx-auto">
-      <ProjectHeader {...project} />
+      <ProjectHeader project={project} />
       {tasksLength === 0 ? (
         <NoTasks />
       ) : (
