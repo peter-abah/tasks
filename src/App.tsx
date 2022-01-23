@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { Layout, Project, Category, Signup, Signin } from "./routes";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -12,18 +12,25 @@ import { updateAppLoading } from "./features/ui/uiSlice";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
-  const setAllData = useCallback(([tasks, projects]: any[][]) => {
-    dispatch(setAllTasks(tasks));
-    dispatch(setAllProjects(projects));
-  }, [dispatch]);
+  const setAllData = useCallback(
+    ([tasks, projects]: any[][]) => {
+      dispatch(setAllTasks(tasks));
+      dispatch(setAllProjects(projects));
+    },
+    [dispatch]
+  );
 
   // redirects to sign in page if user is not signed in
   useEffect(() => {
-    !user.uid && navigate("/signin");
-  }, [user.uid, navigate]);
+    const pathRegex = /signup$/; // tests if path is signup path
+    if (user.uid || pathRegex.test(location.pathname)) return;
+
+    navigate("/signin");
+  }, [user.uid, navigate, location.pathname]);
 
   // loads all data from firestore
   useEffect(() => {
