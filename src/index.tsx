@@ -12,7 +12,7 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router basename="/tasks">
       <Provider store={store}>
         <App />
       </Provider>
