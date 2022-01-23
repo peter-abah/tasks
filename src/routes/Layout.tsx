@@ -64,7 +64,7 @@ const Layout = () => {
   if (appLoading) return <MainLoadingAnim />;
 
   return (
-    <main className="h-full flex flex-col items-stretch">
+    <main className="font-sans h-full flex flex-col items-stretch">
       {isLoading && <LoadingBar />}
       <NavBar openModal={toggleForm} />
       <div className="flex flex-col items-stretch relative h-full">
