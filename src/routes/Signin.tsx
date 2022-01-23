@@ -4,7 +4,11 @@ import FormField from "../components/FormField";
 import { useAppDispatch } from "../app/hooks";
 import * as Yup from "yup";
 
-import { signinUser, handleErrors } from "../services/user";
+import {
+  signinUser,
+  signinUserAnonymously,
+  handleErrors,
+} from "../services/user";
 import { loginUser, Iuser } from "../features/users/usersSlice";
 import { updateAppLoading } from "../features/ui/uiSlice";
 
@@ -18,6 +22,12 @@ const Signin = () => {
   const handleSuccess = (user: Iuser) => {
     dispatch(loginUser(user));
     navigate("/");
+  };
+
+  const signinAnonymous = async () => {
+    signinUserAnonymously()
+      .then((user) => handleSuccess(user))
+      .catch((e) => console.error(e));
   };
 
   return (
@@ -41,7 +51,7 @@ const Signin = () => {
           .catch((e) => handleErrors(e, setFieldError));
       }}
     >
-      <div className="flex flex-col w-screen max-w-xs mx-auto my-16 px-4 py-8 shadow-lg rounded-xl h-fit">
+      <div className="font-sans flex flex-col w-screen max-w-xs mx-auto my-16 px-4 py-8 shadow-lg rounded-xl h-fit">
         <h1 className="text-2xl font-bold pb-4">Sign in</h1>
         <Form>
           <FormField
@@ -52,7 +62,12 @@ const Signin = () => {
             placeholder="peter@email.com"
           />
 
-          <FormField label="Password:" name="password" type="password" autoComplete="current-password" />
+          <FormField
+            label="Password:"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+          />
 
           <button
             className="block w-full px-3 py-1 mb-3 border-emerald-700 border-2 rounded-lg mx-auto mt-4 text-lg transition-transform active:scale-95 hover:bg-emerald-700"
@@ -66,6 +81,15 @@ const Signin = () => {
           >
             Sign up
           </Link>
+          <button
+            onClick={signinAnonymous}
+            className="block w-full px-3 py-1 text-center border-blue-700 border-2 rounded-lg mx-auto mt-10 text-lg transition-transform active:scale-95 hover:bg-blue-700"
+          >
+            Sign in anonymously
+          </button>
+          <p className="text-xs pt-1">
+            Note that your data is not saved when you sign in anonymously
+          </p>
         </Form>
       </div>
     </Formik>

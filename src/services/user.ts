@@ -1,12 +1,15 @@
-import { AuthErrorCodes, AuthError } from "firebase/auth";
+import {} from "firebase/auth";
 import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInAnonymously,
   updateProfile,
+  AuthErrorCodes,
+  AuthError,
 } from "firebase/auth";
 
-import { updateProject } from './projects';
+import { updateProject } from "./projects";
 
 type IsetError = (field: string, msg: string) => void;
 
@@ -31,11 +34,11 @@ export const handleErrors = (e: AuthError, setError: IsetError) => {
 };
 
 const addDefaultData = async (uid: string) => {
-  const project = {title: 'Default', id: 'default'};
+  const project = { title: "Default", id: "default" };
   await updateProject(uid, project);
 };
 
-export const signupUser = async (
+export const signupUserWithEmail = async (
   name: string,
   email: string,
   password: string
@@ -63,6 +66,11 @@ export const signupUser = async (
   } else {
     throw new Error("invalid");
   }
+};
+
+export const signinUserAnonymously = async () => {
+  const { user } = await signInAnonymously(auth)
+  return {email: '', uid: user.uid, displayName: ''};
 };
 
 export const signinUser = async (uEmail: string, password: string) => {

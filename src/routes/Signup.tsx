@@ -5,7 +5,7 @@ import FormField from "../components/FormField";
 import { useAppDispatch } from "../app/hooks";
 import { updateAppLoading } from "../features/ui/uiSlice";
 
-import { signupUser, handleErrors } from "../services/user";
+import { signupUserWithEmail, handleErrors, signinUserAnonymously } from "../services/user";
 import { loginUser, Iuser } from "../features/users/usersSlice";
 
 const emailRegex =
@@ -18,6 +18,12 @@ const Signup = () => {
   const handleSuccess = (user: Iuser) => {
     dispatch(loginUser(user));
     navigate("/");
+  };
+
+  const signinAnonymous = async () => {
+    signinUserAnonymously()
+      .then((user) => handleSuccess(user))
+      .catch((e) => console.error(e));
   };
 
   return (
@@ -45,12 +51,12 @@ const Signup = () => {
       })}
       onSubmit={({ name, email, password }, { setFieldError }) => {
         dispatch(updateAppLoading(true));
-        signupUser(name, email, password)
+        signupUserWithEmail(name, email, password)
           .then(handleSuccess)
           .catch((e) => handleErrors(e, setFieldError));
       }}
     >
-      <div className="flex flex-col w-screen max-w-xs h-fit mx-auto my-16 px-4 py-6 shadow-lg rounded-xl">
+      <div className="font-sans flex flex-col w-screen max-w-xs h-fit mx-auto my-16 px-4 py-6 shadow-lg rounded-xl">
         <h1 className="text-2xl font-bold pb-4">Sign up</h1>
         <Form>
           <FormField
@@ -96,6 +102,16 @@ const Signup = () => {
           >
             Sign in
           </Link>
+
+          <button
+            onClick={signinAnonymous}
+            className="block w-full px-3 py-1 text-center border-blue-700 border-2 rounded-lg mx-auto mt-10 text-lg transition-transform active:scale-95 hover:bg-blue-700"
+          >
+            Sign in anonymously
+          </button>
+          <p className="text-xs pt-1">
+            Note that your data is not saved when you sign in anonymously
+          </p>
         </Form>
       </div>
     </Formik>
