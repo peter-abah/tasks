@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import useProjectForm from "../hooks/useProjectForm";
 
-import { selectProjects, Project } from "../features/projects/projectsSlice";
+import { selectProjects } from "../features/projects/projectsSlice";
 import { updateSideBarVisibility } from "../features/ui/uiSlice";
 
 import { motion } from "framer-motion";
-import uniqid from "uniqid";
 
 import SideBarHeader from "./SideBarHeader";
 import ProjectLink from "./ProjectLink";
 import ProjectForm from "./ProjectForm";
 import CategoriesBar from "./CategoriesBar";
 import { useBoolean } from "usehooks-ts";
-
-const newProject = (): Project => {
-  return { title: "", id: uniqid() };
-};
 
 const SideBar = React.forwardRef<HTMLElement>((_, ref) => {
   const {

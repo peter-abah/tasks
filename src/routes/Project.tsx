@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 
 import { selectProject } from "../features/projects/projectsSlice";
 import {

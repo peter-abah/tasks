@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { Layout, Project, Category, Signup, Signin } from "./routes";
 
@@ -15,27 +15,27 @@ function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
-  const setAllData = ([tasks, projects]: any[][]) => {
+  const setAllData = useCallback(([tasks, projects]: any[][]) => {
     dispatch(setAllTasks(tasks));
     dispatch(setAllProjects(projects));
-  };
+  }, [dispatch]);
 
   // redirects to sign in page if user is not signed in
   useEffect(() => {
     !user.uid && navigate("/signin");
-  }, [user.uid]);
+  }, [user.uid, navigate]);
 
   // loads all data from firestore
   useEffect(() => {
     if (!user.uid) return;
 
-    dispatch(updateAppLoading(true))
+    dispatch(updateAppLoading(true));
 
     getAllData(user.uid)
       .then(setAllData)
       .catch((e) => console.log(e))
       .finally(() => dispatch(updateAppLoading(false)));
-  }, [user.uid]);
+  }, [user.uid, dispatch, setAllData]);
 
   return (
     <Routes>

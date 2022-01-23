@@ -22,7 +22,7 @@ const useProjectForm = (mode: string, data = newProject()) => {
   // changes project data to new data if project changes
   useEffect(() => {
     if (project.id !== data.id && mode !== "new") setProject(data);
-  }, [project, data]);
+  }, [project, data, mode]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

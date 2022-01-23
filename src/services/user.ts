@@ -61,7 +61,7 @@ export const signupUser = async (
       uid: auth.currentUser.uid,
     };
   } else {
-    throw "invalid";
+    throw new Error("invalid");
   }
 };
 

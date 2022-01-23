@@ -7,10 +7,6 @@ export interface Iuser {
   uid: string;
 }
 
-interface IuserState {
-  user: Iuser;
-}
-
 const emptyUser = {
   displayName: "",
   email: "",
