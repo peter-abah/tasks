@@ -1,5 +1,5 @@
 # Tasks
-This is a todo web app made with react.
+This is a todo web app made with react to practice using redux, typescript and firebase.
 
 [View Live Demo](https://peter-abah.github.io/tasks)
 
